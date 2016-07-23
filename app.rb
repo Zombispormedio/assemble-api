@@ -10,16 +10,24 @@ require 'sinatra/reloader' if development? # sinatra-contrib
 require 'sinatra/activerecord'
 require 'sinatra/namespace'
 
+require_relative 'app/models/user'
+
+require_relative 'app/controllers/oauth_controller'
+require_relative 'app/controllers/user_controller'
+
+require_relative 'app/helpers/response_helper'
+require_relative 'app/helpers/endpoint_helper'
 
 require_relative 'app/routes/base'
-
 require_relative 'app/routes/oauth'
 require_relative 'app/routes/user'
+
+
 
 module AssembleAPI
     class App < Sinatra::Base
         register Sinatra::ActiveRecordExtension
-        register Sinatra::Namespace
+        include ResponseHelper
 
         configure :development do
             register Sinatra::Reloader
@@ -28,7 +36,8 @@ module AssembleAPI
       configure do
           set :database, {
               adapter: 'postgresql',  encoding: 'unicode',
-              hostname: ENV['POSTGRE_HOSTNAME'], database: ENV['POSTGRE_DATABASE'], pool: 2,
+              database: ENV['POSTGRE_DATABASE'], pool: 2,
+              host: ENV['POSTGRE_HOSTNAME'],
               username: ENV['POSTGRE_USER'], password: ENV['POSTGRE_PASS']
           }
       end
@@ -38,6 +47,9 @@ module AssembleAPI
             use Routes.const_get(e)
           end
 
+        not_found do
+          error(  "Whoops! You requested a endpoint that wasn't available.")
+        end
 
     end
 

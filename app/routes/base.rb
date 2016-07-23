@@ -1,11 +1,6 @@
-module Endpoint
-  def self.included(base)
-    base.class_eval do
-      set(:prefix) { "/" << name[/[^:]+$/].downcase }
-    end
-  end
-end
+
 class Base < Sinatra::Application
+  include EndpointHelper
 
   configure do
     set :root, File.expand_path('../../../', __FILE__)
@@ -17,5 +12,6 @@ class Base < Sinatra::Application
 
   before do
     $host_port = request.host_with_port
+    content_type :json
   end
 end

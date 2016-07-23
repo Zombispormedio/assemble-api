@@ -18,4 +18,6 @@ gem 'rake'
 
 gem 'json'
 
+gem 'bcrypt-ruby', :require => 'bcrypt'
+
 
