@@ -3,9 +3,11 @@ module OAuthController
   def signup(email, password)
     result= Hash.new
 
-    result[:data]=email;
 
-    return result
+    result[:error]=User.create(email: email, encrypted_password: password).errors
+
+
+    result
 
   end
 
