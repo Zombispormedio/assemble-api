@@ -10,15 +10,18 @@ require 'sinatra/reloader' if development? # sinatra-contrib
 require 'sinatra/activerecord'
 require 'sinatra/namespace'
 
+require_relative 'lib/utils'
+require_relative 'app/helpers/response_helper'
+require_relative 'app/helpers/endpoint_helper'
+require_relative 'app/helpers/session_helper'
+
 require_relative 'app/models/user'
 
 require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'
-
-require_relative 'app/helpers/response_helper'
-require_relative 'app/helpers/endpoint_helper'
-
 require_relative 'app/routes/base'
+require_relative 'app/routes/authenticable'
+
 require_relative 'app/routes/oauth'
 require_relative 'app/routes/user'
 
@@ -48,7 +51,11 @@ module AssembleAPI
           end
 
         not_found do
-          error(  "Whoops! You requested a endpoint that wasn't available.")
+          error  "Whoops! You requested a endpoint that wasn't available."
+        end
+
+        error do
+          error "Y U NO WORK?"
         end
 
     end

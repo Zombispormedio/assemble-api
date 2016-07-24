@@ -1,3 +1,9 @@
+require 'digest/sha1'
 
-class Utils
+module Utils
+
+  def encrypt(value)
+    Digest::SHA1.hexdigest(value)
+  end
+
 end

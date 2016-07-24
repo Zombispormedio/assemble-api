@@ -18,6 +18,8 @@ gem 'rake'
 
 gem 'json'
 
-gem 'bcrypt-ruby', :require => 'bcrypt'
 
+gem 'redis', '~>3.2'
+
+gem 'jwt'
 
