@@ -1,0 +1,2 @@
+class SessionHelper
+end

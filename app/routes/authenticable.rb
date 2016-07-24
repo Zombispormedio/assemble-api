@@ -1,0 +1,3 @@
+
+class Authenticable
+end

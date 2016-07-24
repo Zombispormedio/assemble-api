@@ -1,0 +1,3 @@
+
+class RedisWrapper
+end
