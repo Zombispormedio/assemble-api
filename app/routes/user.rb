@@ -2,7 +2,7 @@ module Routes
   class User < Authenticable
     include UserController
 
-    get self.prefix do
+    get "/check_user" do
       success( { msg: "Yes, you have authorization"})
     end
 
