@@ -1,6 +1,7 @@
 class Authenticable < Base
   before do
-    @user_uid=OAuthController.validateToken(request.env["HTTP_AUTHORIZATION"])
+    @token=request.env["HTTP_AUTHORIZATION"]
+    @user_uid=OAuthController.validateToken(@token)
       halt 403,  error("No Authorization")  if  @user_uid.nil?
 
   end

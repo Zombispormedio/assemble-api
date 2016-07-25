@@ -14,4 +14,9 @@ module UserController
     result
   end
 
+  def signout(token, uid)
+    SessionHelper.new.remove token
+    {:data =>{:msg => "Sign out successfully"}}
+  end
+
 end

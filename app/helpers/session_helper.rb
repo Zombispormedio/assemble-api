@@ -16,7 +16,7 @@ class SessionHelper
 
     token= @jwt.encode payload
 
-    @redis.set(token, true)
+    @redis.set token, true
 
     token
 
@@ -34,6 +34,10 @@ class SessionHelper
     end
 
 
+  end
+
+  def remove(token)
+    @redis.del token
   end
 
   def finish

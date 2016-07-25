@@ -6,15 +6,19 @@ class RedisWrapper
   end
 
   def set(key, value)
-    @redis.setex(key, ENV["TTL"], value)
+    @redis.setex key, ENV["TTL"], value
   end
 
   def get(key)
-    @redis.get(key)
+    @redis.get key
   end
 
   def get_keys_by_pattern(pattern)
-    @redis.scan(pattern)
+    @redis.scan pattern
+  end
+
+  def del(key)
+    @redis.del key
   end
 
   def close

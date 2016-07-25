@@ -10,6 +10,10 @@ module Routes
       resolve get_profile @user_uid
     end
 
+    get "/signout" do
+      resolve signout @token, @user_uid
+    end
+
 
   end
 
