@@ -51,11 +51,11 @@ module AssembleAPI
           end
 
         not_found do
-          error  "Whoops! You requested a endpoint that wasn't available."
+          error({msg:"Whoops! You requested a endpoint that wasn't available."})
         end
 
         error do
-          error "Y U NO WORK?"
+          error ({msg:"Y U NO WORK?"})
         end
 
     end
