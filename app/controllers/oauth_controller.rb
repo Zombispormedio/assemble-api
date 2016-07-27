@@ -19,7 +19,7 @@ module OAuthController
     user=User.find_by email: email
 
     if user.nil?
-      result[:error]={msg:"User not exists"}
+      result[:error]={msg:"User doesn't exist"}
     else
 
        if user.authenticate password
