@@ -7,11 +7,11 @@ module Routes
     end
 
     get "/profile" do
-      resolve get_profile @user.uid
+      resolve get_profile
     end
 
     get "/signout" do
-      resolve signout @token, @user
+      resolve signout
     end
 
 

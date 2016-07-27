@@ -9,6 +9,10 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, :through => :friendships
 
+  has_many  :friendship_requests, dependent: :destroy
+  has_many :friend_requests, :through =>  :friendship_requests
+
+
 
   #Validation
   validates :email, presence: { message: "Email must be"}
