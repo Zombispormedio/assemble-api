@@ -23,7 +23,8 @@ class User < ActiveRecord::Base
   def getUniqueUsernameByEmail(email)
     prefix=email.split("@")[0]
     count=User.where("username LIKE '#{prefix}%'").count
-    prefix+(count+1).to_s
+
+    count==0? prefix : prefix+(count+2).to_s
   end
 
   def encryptPassword(this)

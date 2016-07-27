@@ -43,13 +43,16 @@ module OAuthController
   end
 
   def self.validateToken(token)
-    user = nil
+    uid = nil
     if not token.nil?
       session=SessionHelper.new
-      user= session.get_user token
+      uid= session.get_user token
       session.finish
+
+      uid=nil if User.find_by(uid: uid).nil?
+
     end
-    user
+    uid
   end
 
 end
