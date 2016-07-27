@@ -32,6 +32,7 @@ module OAuthController
 
          session.finish
 
+         user.update(current_sign_in_at: Time.now)
 
        else
          result[:error]={msg:"Bad password"}

@@ -16,6 +16,9 @@ module UserController
 
   def signout(token, uid)
     SessionHelper.new.remove token
+
+    User.find_by(uid: uid).update(last_sign_in_at: Time.now)
+
     {:data =>{:msg => "Sign out successfully"}}
   end
 

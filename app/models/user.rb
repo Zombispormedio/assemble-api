@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
 
   before_create do
     self.uid = SecureRandom.uuid
+    self.sign_up_at=Time.now
     self.username=getUniqueUsernameByEmail(self.email)  if self.username.nil?
     encryptPassword(self)
   end
