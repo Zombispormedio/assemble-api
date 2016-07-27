@@ -1,11 +1,19 @@
 require 'securerandom'
 
 class User < ActiveRecord::Base
+  #mixins
   include Utils
 
+
+  #friends
+  has_many :friendships, dependent: :destroy
+  has_many :friends, :through => :friendships
+
+
+  #Validation
   validates :email, presence: { message: "Email must be"}
   validates :password, presence: { message: "Password must be"}
-  validates :password, length: { in: 6..20, wrong_length: "Length range is 6-20"}
+  validates :password, length: { in: 6..500, wrong_length: "Length range is 6-20"}
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -13,6 +21,7 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: {case_sensitive: false ,message: "You are registered"}
 
   validates :username, uniqueness: {case_sensitive: false ,message: "Username is used"}
+
 
   before_create do
     self.uid = SecureRandom.uuid
@@ -36,6 +45,7 @@ class User < ActiveRecord::Base
   def authenticate(pass)
     self.password==encrypt("#{self.salt}_#{pass}")
   end
+
 
 
 end

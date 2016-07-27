@@ -16,14 +16,18 @@ require_relative 'app/helpers/endpoint_helper'
 require_relative 'app/helpers/session_helper'
 
 require_relative 'app/models/user'
+require_relative 'app/models/friendship'
 
 require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'
+require_relative 'app/controllers/friendship_controller'
+
 require_relative 'app/routes/base'
 require_relative 'app/routes/authenticable'
 
 require_relative 'app/routes/oauth'
 require_relative 'app/routes/user'
+require_relative 'app/routes/friendship'
 
 
 

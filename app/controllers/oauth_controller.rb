@@ -19,24 +19,28 @@ module OAuthController
     user=User.find_by email: email
 
     if user.nil?
-      result[:error]={msg:"User doesn't exist"}
+      result[:error]={msg: "User doesn't exist"}
     else
 
-       if user.authenticate password
+      if user.authenticate password
 
-         session=SessionHelper.new
+        if not user.update(current_sign_in_at: Time.now)
+          result[:error]=user.errors
+        else
+          session=SessionHelper.new
 
-         token=session.generate user.uid
+          token=session.generate user.uid
 
-         result[:data]={token:token}
+          result[:data]={token: token}
 
-         session.finish
+          session.finish
 
-         user.update(current_sign_in_at: Time.now)
+        end
 
-       else
-         result[:error]={msg:"Bad password"}
-       end
+
+      else
+        result[:error]={msg: "Bad password"}
+      end
 
     end
 
@@ -44,16 +48,14 @@ module OAuthController
   end
 
   def self.validateToken(token)
-    uid = nil
+    user = nil
     if not token.nil?
       session=SessionHelper.new
       uid= session.get_user token
       session.finish
-
-      uid=nil if User.find_by(uid: uid).nil?
-
+      user=User.find_by(uid: uid)
     end
-    uid
+    user
   end
 
 end
