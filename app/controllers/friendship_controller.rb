@@ -3,23 +3,23 @@ module FriendshipController
   def search_new_friends(search_text)
     friend_ids=@user.friends.select("id").map{|item| item.id}
 
-    users=User.select("id, email, username, name")
-              .where("(email LIKE ? OR username LIKE ? OR name LIKE ?) AND id NOT IN (?)",
-                     "#{search_text}%", "#{search_text}%","#{search_text}%", friend_ids)
+    users=User.select(Selection.USER)
+              .where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
+                     "#{search_text}%", "#{search_text}%", friend_ids)
 
 
     {:data=>users}
   end
 
   def get_friends
-    friends=@user.friends.select("friend_id, email, username, name")
+    friends=@user.friends.select(Selection.FRIEND)
 
     {:data=>friends}
 
   end
 
   def get_friend_by_id(id)
-    friend=@user.friends.select("friend_id, email, username, name, birth_date, location, bio, sign_up_at").find_by(id: id)
+    friend=@user.friends.select(Selection.FRIEND_BY_ID).find_by(id: id)
     {:data=>friend}
   end
 
@@ -44,13 +44,13 @@ module FriendshipController
   end
 
   def get_friend_requests
-    friends=@user.friend_requests.select("friend_request_id, email, username, name")
+    friends=@user.friend_requests.select(Selection.FRIEND_REQUEST)
 
     {:data=>friends}
   end
 
   def get_friend_request_by_id(id)
-    friend=@user.friend_requests.select("friend_request_id, email, username, name, birth_date, location, bio, sign_up_at").find_by(id: id)
+    friend=@user.friend_requests.select(Selection.FRIEND_REQUEST_BY_ID).find_by(id: id)
     {:data=>friend}
   end
 
@@ -104,8 +104,3 @@ module FriendshipController
 
 end
 
-
-
-#user.friends.destroy( User.find(90))
-#user.friends << User.find(90)
-#user.friends.select("id")

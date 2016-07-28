@@ -8,12 +8,25 @@ $: << File.expand_path('../lib', __FILE__)
 require 'sinatra/base'
 require 'sinatra/reloader' if development? # sinatra-contrib
 require 'sinatra/activerecord'
-require 'sinatra/namespace'
+
+require 'aws-sdk'
+require 'rmagick'
+require 'securerandom'
+require 'pathname'
+
+require_relative "lib/redis_wrapper"
+require_relative "lib/jwt_wrapper"
+
+require_relative "lib/s3_wrapper"
+require_relative "lib/magick_wrapper"
 
 require_relative 'lib/utils'
 require_relative 'app/helpers/response_helper'
 require_relative 'app/helpers/endpoint_helper'
 require_relative 'app/helpers/session_helper'
+require_relative 'app/helpers/selection_helper'
+require_relative 'app/helpers/image_helper'
+
 
 require_relative 'app/models/user'
 require_relative 'app/models/friendship'
@@ -30,6 +43,7 @@ require_relative 'app/routes/oauth'
 require_relative 'app/routes/user'
 require_relative 'app/routes/friendship'
 
+Aws.use_bundled_cert!
 
 
 module AssembleAPI

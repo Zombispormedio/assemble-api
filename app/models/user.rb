@@ -1,5 +1,3 @@
-require 'securerandom'
-
 class User < ActiveRecord::Base
   #mixins
   include Utils

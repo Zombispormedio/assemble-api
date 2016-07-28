@@ -23,3 +23,7 @@ gem 'redis', '~>3.2'
 
 gem 'jwt'
 
+gem 'rmagick'
+
+gem 'aws-sdk', '~> 2'
+

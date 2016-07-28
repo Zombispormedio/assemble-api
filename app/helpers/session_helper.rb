@@ -1,5 +1,3 @@
-require_relative "../../lib/redis_wrapper"
-require_relative "../../lib/jwt_wrapper"
 class SessionHelper
 
   def initialize

@@ -14,6 +14,12 @@ module Routes
       resolve signout
     end
 
+    put "/avatar" do
+
+      resolve upload_avatar params["avatar"]
+
+    end
+
 
   end
 
