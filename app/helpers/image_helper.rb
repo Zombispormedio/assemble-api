@@ -4,13 +4,13 @@ class ImageHelper
   @@FULL=160
 
   cattr_reader :LARGE
-  @@LARGE=160
+  @@LARGE=80
 
   cattr_reader :MEDIUM
-  @@MEDIUM=80
+  @@MEDIUM=40
 
   cattr_reader :THUMB
-  @@THUMB=160
+  @@THUMB=20
 
   def initialize(filename, bucket_name)
     @bucket_name=bucket_name

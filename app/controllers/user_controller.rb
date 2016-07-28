@@ -62,6 +62,8 @@ module UserController
 
       @user.save
 
+      FileUtils.rm_rf base_dir
+
       result[:data]={:msg => "Avatar Changed"}
     end
 
