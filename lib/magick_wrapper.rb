@@ -1,0 +1,3 @@
+
+class MagickWrapper
+end
