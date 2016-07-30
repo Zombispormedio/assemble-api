@@ -31,44 +31,37 @@ module UserController
 
   end
 
-  def upload_avatar(file)
+  def change_email(new_email)
     result=Hash.new
 
-    unless file &&
-        (tmpfile = file[:tempfile]) &&
-        (name = file[:filename])
-      result[:error] = "No file selected"
+    @user.update(email: new_email)
+
+    unless @user.errors.any?
+      result[:data]={:msg => "Email changed"}
     else
-
-      base_dir="uploads/#{@user.uid}/"
-      extname=Pathname(name).extname
-
-      filename=SecureRandom.urlsafe_base64+extname
-
-      Dir.mkdir base_dir unless File.exists?(base_dir)
-
-      filepath=base_dir+filename
-
-      File.open(filepath, 'wb') { |f| f.write tmpfile.read }
-
-      image= ImageHelper.new filepath, @user.uid
-
-      image.clear
-
-      @user.full_avatar_url=image.full
-      @user.large_avatar_url=image.large
-      @user.medium_avatar_url=image.medium
-      @user.thumb_avatar_url=image.thumb
-
-      @user.save
-
-      FileUtils.rm_rf base_dir
-
-      result[:data]={:msg => "Avatar Changed"}
+      result[:error]=@user.errors
     end
 
-
-    result
+    return result
   end
+
+  def change_password(new_password)
+    result=Hash.new
+
+    @user.password= new_password
+    @user.encryptPassword
+    @user.save
+
+    unless @user.errors.any?
+      result[:data]={:msg => "Password changed"}
+    else
+      result[:error]=@user.errors
+    end
+
+    return result
+  end
+
+
+
 
 end

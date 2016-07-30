@@ -12,7 +12,11 @@ module ResponseHelper
     if result[:error] !=nil
       error(result[:error])
     else
-      success(result[:data])
+      data={msg:"Good!!"}
+      unless result[:data].nil?
+        data=result[:data]
+      end
+      success(data)
     end
   end
 

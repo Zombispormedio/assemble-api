@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   #mixins
   include Utils
 
-
   #friends
   has_many :friendships, dependent: :destroy
   has_many :friends, :through => :friendships
@@ -23,13 +22,20 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: {case_sensitive: false ,message: "You are registered"}
 
   validates :username, uniqueness: {case_sensitive: false ,message: "Username is used"}
+  validates :username, presence: { message: "Username must be"}
+
+
+  validates :bio, presence:{message: "Bio must be"}, on: :update, allow_blank: true
+  validates :location, presence:{message: "Location must be"}, on: :update, allow_blank: true
+  validates :birth_date, presence:{message: "Birthdate must be"}, on: :update, allow_blank: true
+
 
 
   before_create do
     self.uid = SecureRandom.uuid
     self.sign_up_at=Time.now
     self.username=getUniqueUsernameByEmail(self.email)  if self.username.nil?
-    encryptPassword(self)
+    encryptPassword
   end
 
   def getUniqueUsernameByEmail(email)
@@ -39,9 +45,9 @@ class User < ActiveRecord::Base
     count==0? prefix : prefix+(count+2).to_s
   end
 
-  def encryptPassword(this)
-    this.salt=encrypt("#{this.uid}_#{Time.now.to_i}")
-    this.password=encrypt("#{this.salt}_#{this.password}")
+  def encryptPassword
+    self.salt=encrypt("#{self.uid}_#{Time.now.to_i}")
+    self.password=encrypt("#{self.salt}_#{self.password}")
   end
 
   def authenticate(pass)

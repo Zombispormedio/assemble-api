@@ -14,10 +14,14 @@ module Routes
       resolve signout
     end
 
-    put "/avatar" do
+    patch "/change_password" do
+      body=bind_body
+      resolve change_password body["password"]
+    end
 
-      resolve upload_avatar params["avatar"]
-
+    patch "/change_email" do
+      body=bind_body
+      resolve change_email body["email"]
     end
 
 
