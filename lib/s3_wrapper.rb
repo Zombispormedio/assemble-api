@@ -12,7 +12,7 @@ class S3Wrapper
   end
 
   def clear(bucket_name)
-    @s3.bucket(bucket_name).clear!
+    @s3.bucket(bucket_name).clear! if @s3.bucket(bucket_name).exists?
   end
 
   private
