@@ -21,7 +21,7 @@ class SessionHelper
   end
 
   def valid?(token)
-    @redis.get(token) == 'true'
+   not  @redis.get(token).nil?
   end
 
   def get_user(token)

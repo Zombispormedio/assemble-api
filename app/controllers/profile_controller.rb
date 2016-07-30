@@ -20,7 +20,6 @@ module ProfileController
 
       File.open(filepath, 'wb') { |f| f.write tmpfile.read }
 
-      p @user
 
       image= ImageHelper.new filepath, @user.uid
 
