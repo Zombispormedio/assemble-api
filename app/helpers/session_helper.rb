@@ -14,7 +14,7 @@ class SessionHelper
 
     token= @jwt.encode payload
 
-    @redis.set token, true
+    @redis.set token, uid
 
     token
 
