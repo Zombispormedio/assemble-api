@@ -34,13 +34,7 @@ module ProfileController
 
       FileUtils.rm_rf base_dir
 
-      result[:data]={
-          :msg => "Avatar Changed",
-          :full_avatar_url => @user.full_avatar_url,
-          :large_avatar_url => @user.large_avatar_url,
-          :medium_avatar_url => @user.medium_avatar_url,
-          :thumb_avatar_url => @user.thumb_avatar_url
-      }
+      result[:data]=User.select(Selection.PROFILE).find_by uid: @user.uid
     end
     return result
   end
