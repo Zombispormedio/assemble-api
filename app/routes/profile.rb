@@ -1,6 +1,12 @@
 module Routes
   class Profile < Authenticable
    include ProfileController
+
+   put "/profile" do
+     body=bind_body
+     resolve change_profile body
+   end
+
    namespace "/profile" do
 
      patch "/avatar" do

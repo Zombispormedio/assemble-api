@@ -117,5 +117,27 @@ module ProfileController
     return result
   end
 
+  def change_profile(params)
+    result=Hash.new
+
+    @user.username=params["username"]
+
+    @user.bio=params["bio"]
+
+    @user.location=params["location"]
+
+    @user.birth_date=params["birth_date"]
+
+    @user.save
+
+    unless @user.errors.any?
+      result[:data]={:msg => "Profile changed"}
+    else
+      result[:error]=@user.errors
+    end
+
+    return result
+  end
+
 
 end
