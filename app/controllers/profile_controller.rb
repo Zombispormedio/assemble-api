@@ -1,5 +1,9 @@
 module ProfileController
 
+  def profile
+    User.select(Selection.PROFILE).find_by uid: @user.uid
+  end
+
   def upload_avatar(file)
     result=Hash.new
 
@@ -34,7 +38,7 @@ module ProfileController
 
       FileUtils.rm_rf base_dir
 
-      result[:data]=User.select(Selection.PROFILE).find_by uid: @user.uid
+      result[:data]=profile
     end
     return result
   end
@@ -47,7 +51,7 @@ module ProfileController
 
 
     unless @user.errors.any?
-      result[:data]={:msg => "Username changed"}
+      result[:data]=profile
     else
       result[:error]=@user.errors
     end
@@ -67,7 +71,7 @@ module ProfileController
     end
 
     unless @user.errors.any?
-      result[:data]={:msg => "Bio changed"}
+      result[:data]=profile
     else
       result[:error]=@user.errors
     end
@@ -88,7 +92,7 @@ module ProfileController
     end
 
     unless @user.errors.any?
-      result[:data]={:msg => "Location changed"}
+      result[:data]=profile
     else
       result[:error]=@user.errors
     end
@@ -109,7 +113,7 @@ module ProfileController
     end
 
     unless @user.errors.any?
-      result[:data]={:msg => "Birthdate changed"}
+      result[:data]=profile
     else
       result[:error]=@user.errors
     end
@@ -131,7 +135,7 @@ module ProfileController
     @user.save
 
     unless @user.errors.any?
-      result[:data]={:msg => "Profile changed"}
+      result[:data]=profile
     else
       result[:error]=@user.errors
     end
