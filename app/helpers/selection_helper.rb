@@ -11,7 +11,7 @@ class Selection
 
 
   cattr_reader :FRIEND
-  @@FRIEND="friend_id, email, username"
+  @@FRIEND="friend_id, email, username, location, full_avatar_url, large_avatar_url, medium_avatar_url, thumb_avatar_url"
 
 
   cattr_reader :FRIEND_BY_ID
