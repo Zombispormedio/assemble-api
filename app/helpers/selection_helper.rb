@@ -14,7 +14,7 @@ class Selection
 
 
   cattr_reader :FRIEND
-  @@FRIEND="friend_id"+@@PREVIEW_FIELDS_USER
+  @@FRIEND="friend_id, "+@@PREVIEW_FIELDS_USER
 
 
   cattr_reader :FRIEND_BY_ID
@@ -22,7 +22,7 @@ class Selection
 
 
   cattr_reader :FRIEND_REQUEST
-  @@FRIEND_REQUEST="friend_request_id"+@@PREVIEW_FIELDS_USER
+  @@FRIEND_REQUEST="friend_request_id, "+@@PREVIEW_FIELDS_USER
 
 
   cattr_reader :FRIEND_REQUEST_BY_ID
