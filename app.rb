@@ -32,6 +32,8 @@ require_relative 'app/helpers/image_helper'
 require_relative 'app/models/user'
 require_relative 'app/models/friendship'
 require_relative 'app/models/friendship_request'
+require_relative 'app/models/team'
+
 
 require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'

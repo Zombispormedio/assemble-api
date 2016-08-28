@@ -1,5 +1,3 @@
 
 
-User.create([
-        {uid: "sdaddsdfcwsd9464646", email: "aDS@DFDF.COM", encrypted_password: "njkkbjkivvy"}
-            ])
+p Team.find(1).admin

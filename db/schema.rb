@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160728152853) do
+ActiveRecord::Schema.define(version: 20160828171221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,11 +37,22 @@ ActiveRecord::Schema.define(version: 20160728152853) do
   enable_extension "pg_stat_statements"
   enable_extension "plv8"
 
+  create_table "chats", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["friend_id"], name: "index_chats_on_friend_id", using: :btree
+    t.index ["user_id"], name: "index_chats_on_user_id", using: :btree
+  end
+
   create_table "friendship_requests", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "friend_request_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["friend_request_id"], name: "index_friendship_requests_on_friend_request_id", using: :btree
+    t.index ["user_id"], name: "index_friendship_requests_on_user_id", using: :btree
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -49,6 +60,46 @@ ActiveRecord::Schema.define(version: 20160728152853) do
     t.integer  "friend_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id", using: :btree
+    t.index ["user_id"], name: "index_friendships_on_user_id", using: :btree
+  end
+
+  create_table "meetings", force: :cascade do |t|
+    t.integer  "team_id"
+    t.string   "name"
+    t.string   "description"
+    t.datetime "day"
+    t.string   "start_hour"
+    t.string   "end_hour"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["team_id"], name: "index_meetings_on_team_id", using: :btree
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "admin_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["admin_id"], name: "index_teams_on_admin_id", using: :btree
+  end
+
+  create_table "teams_users", force: :cascade do |t|
+    t.integer  "team_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["team_id"], name: "index_teams_users_on_team_id", using: :btree
+    t.index ["user_id"], name: "index_teams_users_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
