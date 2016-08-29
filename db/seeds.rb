@@ -6,5 +6,4 @@ user=User.find(66)
 
 #user.chats[0].messages << Message.create(content: "hola")
 
-p user.messages
-p Message.find(4).sender
+Meeting.find(1).messages << MeetingMessage.create(content:"hola", sender: user)

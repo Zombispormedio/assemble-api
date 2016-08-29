@@ -37,7 +37,8 @@ require_relative 'app/models/meeting'
 require_relative 'app/models/chat'
 require_relative 'app/models/incoming'
 require_relative 'app/models/message'
-
+require_relative 'app/models/team_message'
+require_relative 'app/models/meeting_message'
 
 require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'

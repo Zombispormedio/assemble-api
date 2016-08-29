@@ -4,7 +4,8 @@ class Team < ActiveRecord::Base
 
   belongs_to :admin, :class_name => 'User'
 
-
   has_many :meetings
+
+  has_many :messages, :class_name => 'TeamMessage'
 
 end

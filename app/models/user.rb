@@ -14,8 +14,11 @@ class User < ActiveRecord::Base
 
   has_many :team
 
-  #chats
+  has_many :team_messages, foreign_key: "sender_id"
 
+  has_many :meeting_messages, foreign_key: "sender_id"
+
+  #chats
   has_many :chats, foreign_key: "owner_id", dependent: :destroy
 
   has_many :recipients, :through => :chats
