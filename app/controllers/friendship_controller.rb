@@ -1,26 +1,26 @@
 module FriendshipController
 
   def search_new_friends(search_text)
-    friend_ids=@user.friends.select("id").map{|item| item.id}
+    friend_ids=@user.friends.select("id").map { |item| item.id }
 
     users=User.select(Selection.USER)
               .where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
                      "#{search_text}%", "#{search_text}%", friend_ids)
 
 
-    {:data=>users}
+    {:data => users}
   end
 
   def get_friends
     friends=@user.friends.select(Selection.FRIEND)
 
-    {:data=>friends}
+    {:data => friends}
 
   end
 
   def get_friend_by_id(id)
     friend=@user.friends.select(Selection.FRIEND_BY_ID).find_by(id: id)
-    {:data=>friend}
+    {:data => friend}
   end
 
   def ask_for_new_friend(id)
@@ -28,7 +28,7 @@ module FriendshipController
 
     if @user.friends.find_by(id: id).nil?
       if @user.friend_requests.find_by(id: id).nil?
-        User.find(id).friend_requests  << @user
+        User.find(id).friend_requests << @user
         result[:data]={:msg => "Friend request sent"}
       else
         result[:error]={:msg => "You have a request from this friend"}
@@ -46,22 +46,22 @@ module FriendshipController
   def get_friend_requests
     friends=@user.friend_requests.select(Selection.FRIEND_REQUEST)
 
-    {:data=>friends}
+    {:data => friends}
   end
 
   def get_friend_request_by_id(id)
     friend=@user.friend_requests.select(Selection.FRIEND_REQUEST_BY_ID).find_by(id: id)
-    {:data=>friend}
+    {:data => friend}
   end
 
   def accept_friend(id)
     result=Hash.new
     request_user=@user.friend_requests.find_by(id: id)
     if not request_user.nil?
-        FriendshipRequest.find_by(friend_request_id: id).destroy
-        @user.friends << request_user
+      FriendshipRequest.find_by(friend_request_id: id).destroy
+      @user.friends << request_user
 
-        result[:data]={:msg => "Friend request accepted"}
+      result[:data]={:msg => "Friend request accepted"}
     else
       result[:error]={:msg => "Don't have that friend request"}
     end
@@ -99,7 +99,6 @@ module FriendshipController
     result
 
   end
-
 
 
 end

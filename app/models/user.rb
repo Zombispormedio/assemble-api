@@ -6,42 +6,46 @@ class User < ActiveRecord::Base
   has_many :friendships, dependent: :destroy
   has_many :friends, :through => :friendships
 
-  has_many  :friendship_requests, dependent: :destroy
-  has_many :friend_requests, :through =>  :friendship_requests
+  has_many :friendship_requests, dependent: :destroy
+  has_many :friend_requests, :through => :friendship_requests
 
   #teams
   has_and_belongs_to_many :teams
 
   has_many :team
 
+  #chats
 
+  has_many :chats, foreign_key: "owner_id", dependent: :destroy
 
+  has_many :recipients, :through => :chats
+
+  has_many :messages, foreign_key: "sender_id", dependent: :destroy
 
 
   #Validation
-  validates :email, presence: { message: "Email must be"}
-  validates :password, presence: { message: "Password must be"}
-  validates :password, length: { in: 6..500, wrong_length: "Length range is 6-20"}
+  validates :email, presence: {message: "Email must be"}
+  validates :password, presence: {message: "Password must be"}
+  validates :password, length: {in: 6..500, wrong_length: "Length range is 6-20"}
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-  validates :email, format: { :with => VALID_EMAIL_REGEX , message: "Email format is invalid" }
-  validates :email, uniqueness: {case_sensitive: false ,message: "You are registered"}
+  validates :email, format: {:with => VALID_EMAIL_REGEX, message: "Email format is invalid"}
+  validates :email, uniqueness: {case_sensitive: false, message: "You are registered"}
 
-  validates :username, uniqueness: {case_sensitive: false ,message: "Username is used"}
-  validates :username, presence: { message: "Username must be"}
+  validates :username, uniqueness: {case_sensitive: false, message: "Username is used"}
+  validates :username, presence: {message: "Username must be"}
 
 
-  validates :bio, presence:{message: "Bio must be"}, on: :update, allow_blank: true
-  validates :location, presence:{message: "Location must be"}, on: :update, allow_blank: true
-  validates :birth_date, presence:{message: "Birthdate must be"}, on: :update, allow_blank: true
-
+  validates :bio, presence: {message: "Bio must be"}, on: :update, allow_blank: true
+  validates :location, presence: {message: "Location must be"}, on: :update, allow_blank: true
+  validates :birth_date, presence: {message: "Birthdate must be"}, on: :update, allow_blank: true
 
 
   before_create do
     self.uid = SecureRandom.uuid
     self.sign_up_at=Time.now
-    self.username=getUniqueUsernameByEmail(self.email)  if self.username.nil?
+    self.username=getUniqueUsernameByEmail(self.email) if self.username.nil?
     encryptPassword
   end
 
@@ -49,7 +53,7 @@ class User < ActiveRecord::Base
     prefix=email.split("@")[0]
     count=User.where("username LIKE '#{prefix}%'").count
 
-    count==0? prefix : prefix+(count+2).to_s
+    count==0 ? prefix : prefix+(count+2).to_s
   end
 
   def encryptPassword
@@ -60,7 +64,6 @@ class User < ActiveRecord::Base
   def authenticate(pass)
     self.password==encrypt("#{self.salt}_#{pass}")
   end
-
 
 
 end

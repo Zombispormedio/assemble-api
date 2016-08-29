@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160828171221) do
+ActiveRecord::Schema.define(version: 20160829121136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,12 +38,12 @@ ActiveRecord::Schema.define(version: 20160828171221) do
   enable_extension "plv8"
 
   create_table "chats", force: :cascade do |t|
-    t.integer  "user_id"
+    t.integer  "owner_id"
     t.integer  "friend_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["friend_id"], name: "index_chats_on_friend_id", using: :btree
-    t.index ["user_id"], name: "index_chats_on_user_id", using: :btree
+    t.index ["owner_id"], name: "index_chats_on_owner_id", using: :btree
   end
 
   create_table "friendship_requests", force: :cascade do |t|
@@ -64,6 +64,25 @@ ActiveRecord::Schema.define(version: 20160828171221) do
     t.index ["user_id"], name: "index_friendships_on_user_id", using: :btree
   end
 
+  create_table "incomings", force: :cascade do |t|
+    t.integer  "chat_id"
+    t.integer  "sender_id"
+    t.integer  "message_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["chat_id"], name: "index_incomings_on_chat_id", using: :btree
+    t.index ["message_id"], name: "index_incomings_on_message_id", using: :btree
+    t.index ["sender_id"], name: "index_incomings_on_sender_id", using: :btree
+  end
+
+  create_table "meeting_message", force: :cascade do |t|
+    t.integer  "meeting_id"
+    t.integer  "sender_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "meetings", force: :cascade do |t|
     t.integer  "team_id"
     t.string   "name"
@@ -77,8 +96,19 @@ ActiveRecord::Schema.define(version: 20160828171221) do
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "from_id"
-    t.integer  "to_id"
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_read"
+    t.boolean  "is_sent"
+    t.boolean  "is_delivered"
+  end
+
+  create_table "team_messages", force: :cascade do |t|
+    t.integer  "team_id"
+    t.integer  "sender_id"
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"

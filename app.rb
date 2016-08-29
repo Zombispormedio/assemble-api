@@ -33,6 +33,10 @@ require_relative 'app/models/user'
 require_relative 'app/models/friendship'
 require_relative 'app/models/friendship_request'
 require_relative 'app/models/team'
+require_relative 'app/models/meeting'
+require_relative 'app/models/chat'
+require_relative 'app/models/incoming'
+require_relative 'app/models/message'
 
 
 require_relative 'app/controllers/oauth_controller'
