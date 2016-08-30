@@ -28,6 +28,8 @@ require_relative 'app/helpers/session_helper'
 require_relative 'app/helpers/selection_helper'
 require_relative 'app/helpers/image_helper'
 
+require_relative 'app/serializers/team_message_serializer'
+require_relative 'app/serializers/sender_serializer'
 
 require_relative 'app/models/user'
 require_relative 'app/models/friendship'
@@ -46,7 +48,7 @@ require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'
 require_relative 'app/controllers/friendship_controller'
 require_relative 'app/controllers/profile_controller'
-
+require_relative 'app/controllers/team_controller'
 
 require_relative 'app/routes/base'
 require_relative 'app/routes/authenticable'
@@ -55,6 +57,7 @@ require_relative 'app/routes/oauth'
 require_relative 'app/routes/user'
 require_relative 'app/routes/friendship'
 require_relative 'app/routes/profile'
+require_relative 'app/routes/team'
 
 Aws.use_bundled_cert!
 

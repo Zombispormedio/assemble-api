@@ -9,8 +9,11 @@ gem 'sinatra-contrib'
 gem 'foreman'
 
 gem 'activerecord'
+gem 'activemodel'
 
 gem 'sinatra-activerecord'
+gem 'sinatra-active-model-serializers'
+
 
 gem "pg"
 

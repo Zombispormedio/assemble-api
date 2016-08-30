@@ -12,13 +12,16 @@ module ResponseHelper
     if result[:error] !=nil
       error(result[:error])
     else
-      data={msg:"Good!!"}
+
       unless result[:data].nil?
         data=result[:data]
+      else
+        data={msg:"Good!!"}
       end
       success(data)
     end
   end
+
 
   def bind_body
     request.body.rewind
