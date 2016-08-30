@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160829200815) do
+ActiveRecord::Schema.define(version: 20160830090507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 20160829200815) do
   enable_extension "pgstattuple"
   enable_extension "pg_stat_statements"
   enable_extension "plv8"
+
+  create_table "attendances", force: :cascade do |t|
+    t.integer  "meeting_id"
+    t.integer  "membership_id"
+    t.boolean  "attent_?"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "chats", force: :cascade do |t|
     t.integer  "owner_id"
@@ -95,6 +103,15 @@ ActiveRecord::Schema.define(version: 20160829200815) do
     t.index ["team_id"], name: "index_meetings_on_team_id", using: :btree
   end
 
+  create_table "memberships", force: :cascade do |t|
+    t.integer  "team_id"
+    t.integer  "member_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["member_id"], name: "index_memberships_on_member_id", using: :btree
+    t.index ["team_id"], name: "index_memberships_on_team_id", using: :btree
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer  "sender_id"
     t.integer  "recipient_id"
@@ -121,15 +138,6 @@ ActiveRecord::Schema.define(version: 20160829200815) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["admin_id"], name: "index_teams_on_admin_id", using: :btree
-  end
-
-  create_table "teams_users", force: :cascade do |t|
-    t.integer  "team_id"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.index ["team_id"], name: "index_teams_users_on_team_id", using: :btree
-    t.index ["user_id"], name: "index_teams_users_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|

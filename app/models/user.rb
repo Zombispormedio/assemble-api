@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
   has_many :friend_requests, :through => :friendship_requests
 
   #teams
-  has_and_belongs_to_many :teams
+  has_many :memberships, :foreign_key => "member_id"
+  has_many :teams, :through => :memberships
 
   has_many :team
 
