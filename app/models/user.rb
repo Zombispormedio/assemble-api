@@ -69,5 +69,9 @@ class User < ActiveRecord::Base
     self.password==encrypt("#{self.salt}_#{pass}")
   end
 
+  def serialized_teams
+    self.teams.map{|team| PreviewTeamSerializer.new(team).attributes}
+  end
+
 
 end

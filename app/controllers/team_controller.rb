@@ -1,7 +1,7 @@
 module TeamController
 
   def get_teams
-    {:data => @user.teams}
+    {:data => @user.serialized_teams}
   end
 
   def get_team_by_id(id)
