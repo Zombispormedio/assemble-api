@@ -39,7 +39,7 @@ module OAuthController
 
 
       else
-        result[:error]={msg: "Bad password"}
+        result[:error]={msg: "Wrong password"}
       end
 
     end

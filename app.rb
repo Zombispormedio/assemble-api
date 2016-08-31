@@ -31,6 +31,7 @@ require_relative 'app/helpers/image_helper'
 require_relative 'app/serializers/team_message_serializer'
 require_relative 'app/serializers/sender_serializer'
 require_relative 'app/serializers/profile_serializer'
+require_relative 'app/serializers/admin_serializer'
 require_relative 'app/serializers/member_serializer'
 require_relative 'app/serializers/team_serializer'
 

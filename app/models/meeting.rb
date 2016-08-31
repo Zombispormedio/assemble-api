@@ -1,5 +1,5 @@
 class Meeting < ActiveRecord::Base
-  after_create :create_attendances
+  after_create :create_attendances, :create_uid
   after_destroy :destroy_attendances
 
   belongs_to :team
@@ -20,7 +20,11 @@ class Meeting < ActiveRecord::Base
   end
 
   def destroy_attendances
+    attendances.each{|attendance| attendance.destroy}
+  end
 
+  def create_uid
+    self.uid = SecureRandom.uuid
   end
 
 

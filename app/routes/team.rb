@@ -8,8 +8,18 @@ module Routes
 
     end
 
+    post "/team" do
+      body=bind_body
+      resolve create_team body
+    end
+
     get "/team/:id" do
       resolve get_team_by_id params["id"]
+    end
+
+    put "/team/:id" do
+      body=bind_body
+      resolve change_team params["id"], body
     end
 
 

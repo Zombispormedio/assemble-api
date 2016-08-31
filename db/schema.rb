@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831120410) do
+ActiveRecord::Schema.define(version: 20160831140236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20160831120410) do
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
   end
 
   create_table "meetings", force: :cascade do |t|
@@ -104,6 +105,7 @@ ActiveRecord::Schema.define(version: 20160831120410) do
     t.string   "large_image_url"
     t.string   "medium_image_url"
     t.string   "thumb_image_url"
+    t.string   "uid"
     t.index ["team_id"], name: "index_meetings_on_team_id", using: :btree
   end
 
@@ -125,6 +127,7 @@ ActiveRecord::Schema.define(version: 20160831120410) do
     t.boolean  "is_read"
     t.boolean  "is_sent"
     t.boolean  "is_delivered"
+    t.string   "uid"
   end
 
   create_table "team_messages", force: :cascade do |t|
@@ -133,6 +136,7 @@ ActiveRecord::Schema.define(version: 20160831120410) do
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "uid"
   end
 
   create_table "teams", force: :cascade do |t|
@@ -145,6 +149,7 @@ ActiveRecord::Schema.define(version: 20160831120410) do
     t.string   "large_image_url"
     t.string   "medium_image_url"
     t.string   "thumb_image_url"
+    t.string   "uid"
     t.index ["admin_id"], name: "index_teams_on_admin_id", using: :btree
   end
 
