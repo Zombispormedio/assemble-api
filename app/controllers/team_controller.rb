@@ -5,7 +5,15 @@ module TeamController
   end
 
   def get_team_by_id(id)
-    {:data => Team.find(id)}
+    result=Hash.new
+    team=@user.teams.find(id) rescue nil;
+
+   if team.nil?
+     result[:error]={:msg => "Team not found"}
+   else
+     result[:data]=TeamSerializer.new(team).attributes
+   end
+    result
   end
 
   def get_admin(team_id)

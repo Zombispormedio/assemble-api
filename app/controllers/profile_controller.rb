@@ -1,8 +1,5 @@
 module ProfileController
-
-  def profile
-    User.select(Selection.PROFILE).find_by uid: @user.uid
-  end
+  include BaseController
 
   def upload_avatar(file)
     result=Hash.new

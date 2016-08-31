@@ -2,7 +2,7 @@ class Authenticable < Base
   helpers do
     def authenticate!
       @token=request.env["HTTP_AUTHORIZATION"]
-      @user=OAuthController.validateToken(@token)
+      @user=OAuthController.validate_token(@token)
      not @user.nil?
     end
   end

@@ -30,6 +30,9 @@ require_relative 'app/helpers/image_helper'
 
 require_relative 'app/serializers/team_message_serializer'
 require_relative 'app/serializers/sender_serializer'
+require_relative 'app/serializers/profile_serializer'
+require_relative 'app/serializers/member_serializer'
+require_relative 'app/serializers/team_serializer'
 
 require_relative 'app/models/user'
 require_relative 'app/models/friendship'
@@ -44,11 +47,13 @@ require_relative 'app/models/message'
 require_relative 'app/models/team_message'
 require_relative 'app/models/meeting_message'
 
+require_relative 'app/controllers/base_controller'
 require_relative 'app/controllers/oauth_controller'
 require_relative 'app/controllers/user_controller'
 require_relative 'app/controllers/friendship_controller'
 require_relative 'app/controllers/profile_controller'
 require_relative 'app/controllers/team_controller'
+
 
 require_relative 'app/routes/base'
 require_relative 'app/routes/authenticable'

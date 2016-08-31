@@ -47,9 +47,9 @@ module OAuthController
     result
   end
 
-  def self.validateToken(token)
+  def self.validate_token(token)
     user = nil
-    if not token.nil?
+    unless token.nil?
       session=SessionHelper.new
       uid= session.get_user token
       session.finish

@@ -1,9 +1,10 @@
 module UserController
+  include BaseController
 
   def get_profile
     result= Hash.new
 
-    user=User.select(Selection.PROFILE).find_by uid: @user.uid
+    user=profile
 
     if user.nil?
       result[:error]={msg: "User doesn't exist"}
