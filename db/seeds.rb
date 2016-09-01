@@ -10,9 +10,9 @@
 
 #Meeting.find(1).messages << MeetingMessage.create(content:"hola", sender: user)
 
-#Team.find(1).members << User.find(98)
+Team.find(4).members << User.find(98)
 
 #Team.find(1).meetings.create(name:"festival")
 #p Team.find(1).memberships
 
-p Meeting.find(36).attendants.find_by(member_id: 66).member
+#p Meeting.find(36).attendants.find_by(member_id: 66).member

@@ -1,12 +1,13 @@
 module TeamController
   include BaseController
+
   def get_teams
     {:data => @user.serialized_teams}
   end
 
-  def get_team_by_id(id)
+  def get_team_by_id
     result=Hash.new
-    team=@user.teams.find(id) rescue nil;
+    team=@user.teams.find(@team_id) rescue nil;
 
     if team.nil?
       result[:error]={:msg => "Team not found"}
@@ -40,20 +41,20 @@ module TeamController
 
   end
 
-  def change_team(id, params)
+  def change_team
     result=Hash.new
     fields=Hash.new
 
-    if params.include?("name")
-      fields[:name]=params["name"]
+    if @body.include?("name")
+      fields[:name]=@body["name"]
     end
 
-    if params.include?("description")
-      fields[:description]=params["description"]
+    if @body.include?("description")
+      fields[:description]=@body["description"]
     end
 
 
-    team=Team.find(id)
+    team=Team.find(@team_id)
 
     team.update(fields)
 
@@ -66,13 +67,13 @@ module TeamController
     result
   end
 
-  def upload_image(id, file)
+  def upload_image
     result=Hash.new
-    team=Team.find(id)
-    image=upload(team.uid, file)
+    team=Team.find(@team_id)
+    image=upload(team.uid, @team_image)
 
     if image.nil?
-      result[:error]={:msg=>"No file selected"}
+      result[:error]={:msg => "No file selected"}
     else
       team.full_image_url=image.full
       team.large_image_url=image.large
@@ -80,27 +81,77 @@ module TeamController
       team.thumb_image_url=image.thumb
       team.save
       image.clean
-      result[:data]=team.serialize
+      if team.errors.any?
+        result[:error]=team.errors
+      else
+        result[:data]=team.serialize
+      end
     end
     result
 
   end
 
-  def get_admin(team_id)
-    admin=Team.find(team_id).serialized_admin
+  def get_admin
+    admin=Team.find(@team_id).serialized_admin
     {:data => admin}
   end
 
-  def get_members(team_id)
-    {:data => Team.find(team_id).serialized_members}
+  def change_admin
+    result=Hash.new
+    team=Team.find(@team_id)
+
+    if @user.id != team.admin_id || @user.id==@admin_id
+      result[:error]={:msg=>"You aren't admin"} if @user.id != team.admin_id
+      result[:error]={:msg=>"You are admin yet"} if @user.id==@admin_id
+      return result
+    end
+
+    new_admin= team.members.find(@admin_id) rescue nil;
+    if new_admin
+      team.admin=new_admin
+      team.save
+      if team.errors.any?
+        result[:error]=team.errors
+      else
+        result[:data]=team.serialized_admin
+      end
+    else
+      result[:error]={:msg=>"New admin is not member"}
+    end
+
+    result
   end
 
-  def get_meetings(team_id)
-    {:data => Team.find(team_id).meetings}
+  def get_members
+    {:data => Team.find(@team_id).serialized_members}
   end
 
-  def get_messages(team_id)
-    {:data => Team.find(team_id).messages.map { |msg|
+  def add_members
+    result=Hash.new
+    team=Team.find(@team_id)
+    if @user.id != team.admin_id
+      result[:error]={:msg=>"You aren't admin"} if @user.id != team.admin_id
+      return result
+    end
+
+    @new_members.each do |id|
+      is_member=team.members.find(id) rescue nil;
+      if is_member.nil?
+        team.members << User.find(id)
+      end
+    end
+
+    result[:data]=team.serialize
+
+    result
+  end
+
+  def get_meetings
+    {:data => Team.find(@team_id).meetings}
+  end
+
+  def get_messages
+    {:data => Team.find(@team_id).messages.map { |msg|
       TeamMessageSerializer.new(msg).attributes
     }}
   end
