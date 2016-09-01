@@ -25,6 +25,11 @@ module Routes
 
     namespace "/team/:id" do
 
+      patch "/image" do
+        resolve upload_image params["id"],params["image"]
+      end
+
+
       get "/admin" do
         resolve get_admin params["id"]
       end

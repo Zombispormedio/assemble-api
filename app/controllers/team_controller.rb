@@ -1,5 +1,5 @@
 module TeamController
-
+  include BaseController
   def get_teams
     {:data => @user.serialized_teams}
   end
@@ -64,6 +64,26 @@ module TeamController
     end
 
     result
+  end
+
+  def upload_image(id, file)
+    result=Hash.new
+    team=Team.find(id)
+    image=upload(team.uid, file)
+
+    if image.nil?
+      result[:error]={:msg=>"No file selected"}
+    else
+      team.full_image_url=image.full
+      team.large_image_url=image.large
+      team.medium_image_url=image.medium
+      team.thumb_image_url=image.thumb
+      team.save
+      image.clean
+      result[:data]=team.serialize
+    end
+    result
+
   end
 
   def get_admin(team_id)

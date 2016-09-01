@@ -4,37 +4,17 @@ module ProfileController
   def upload_avatar(file)
     result=Hash.new
 
-    unless file &&
-        (tmpfile = file[:tempfile]) &&
-        (name = file[:filename])
-      result[:error] = "No file selected"
+    image=upload(@user.uid, file)
+
+    if image.nil?
+      result[:error]={:msg=>"No file selected"}
     else
-
-      base_dir="uploads/#{@user.uid}/"
-      extname=Pathname(name).extname
-
-      filename=SecureRandom.urlsafe_base64+extname.downcase
-
-      Dir.mkdir base_dir unless File.exists?(base_dir)
-
-      filepath=base_dir+filename
-
-      File.open(filepath, 'wb') { |f| f.write tmpfile.read }
-
-
-      image= ImageHelper.new filepath, @user.uid
-
-      image.clear
-
       @user.full_avatar_url=image.full
       @user.large_avatar_url=image.large
       @user.medium_avatar_url=image.medium
       @user.thumb_avatar_url=image.thumb
-
       @user.save
-
-      FileUtils.rm_rf base_dir
-
+      image.clean
       result[:data]=profile
     end
     return result

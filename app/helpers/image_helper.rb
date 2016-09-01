@@ -13,12 +13,13 @@ class ImageHelper
   @@THUMB=32
 
   def initialize(filename, bucket_name)
+    @filename=filename
     @bucket_name=bucket_name
     @magic= MagickWrapper.new(filename)
     @s3=S3Wrapper.new
   end
 
-  def clear
+  def clear_remote
     @s3.clear(@bucket_name)
   end
 
@@ -40,10 +41,15 @@ class ImageHelper
 
   end
 
+  def clean
+    p FileUtils.rm_rf File.dirname(@filename)
+  end
+
   private
 
   def up(path)
     basename= File.basename(path)
+
     @s3.upload @bucket_name, basename, path
   end
 
