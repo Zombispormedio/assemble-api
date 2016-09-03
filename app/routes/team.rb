@@ -54,8 +54,22 @@ module Routes
         resolve add_members
       end
 
+      patch "/delete_member" do
+        @q_member=bind_body["member"]
+        resolve delete_member
+      end
+
+      get "/leave" do
+        resolve leave_team
+      end
+
       get "/meetings" do
         resolve get_meetings
+      end
+
+      post "/meeting" do
+        @body=bind_body
+        resolve create_meeting_for_team
       end
 
       get "/messages" do

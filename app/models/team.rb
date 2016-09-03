@@ -37,4 +37,8 @@ class Team < ActiveRecord::Base
     end
   end
 
+  def serialized_meetings
+    self.meetings.map {|meeting| TeamMeetingSerializer.new(meeting).attributes}
+  end
+
 end

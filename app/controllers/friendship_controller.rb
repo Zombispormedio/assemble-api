@@ -90,8 +90,7 @@ module FriendshipController
     friend=@user.friends.find_by(id: id)
     if not friend.nil?
       Friendship.find_by(friend_id: id).destroy
-
-      result[:data]={:msg => "Friend removed"}
+      result[:data]=@user.friends.select(Selection.FRIEND)
     else
       result[:error]={:msg => "Don't have that friend"}
     end

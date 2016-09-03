@@ -6,15 +6,22 @@ class Meeting < ActiveRecord::Base
 
   has_many :messages, :class_name => 'MeetingMessage', :foreign_key => "meeting_id"
 
-
   has_many :attendances, :dependent => :destroy
   has_many :attendants, :through => :attendances
+
+  #Validation
+  validates :name, presence: {message: "Name must be"}
+  validates :day, presence: {message: "Day must be"}
+
+  def serialize
+    MeetingSerializer.new(self).attributes
+  end
 
   private
   def create_attendances
     attendances.create(
         team.memberships.map { |membership|
-          {attendants: membership}
+          {attendant: membership}
         }
     ) if not team.nil?
   end
@@ -26,6 +33,5 @@ class Meeting < ActiveRecord::Base
   def create_uid
     self.uid = SecureRandom.uuid
   end
-
 
 end
