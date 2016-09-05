@@ -3,9 +3,7 @@ module Routes
     include TeamController
 
     get "/teams" do
-
       resolve get_teams
-
     end
 
     post "/team" do

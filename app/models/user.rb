@@ -73,5 +73,12 @@ class User < ActiveRecord::Base
     self.teams.map{|team| PreviewTeamSerializer.new(team).attributes}
   end
 
+  def serialized_meetings
+    team_ids=self.teams.select("id")
+    meetings=Meeting.where('team_id IN (?)', team_ids)
+
+    meetings.map{|meeting| PreviewMeetingSerializer.new(meeting).attributes}
+  end
+
 
 end
