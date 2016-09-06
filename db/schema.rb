@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160903121527) do
+ActiveRecord::Schema.define(version: 20160906161655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,9 +96,7 @@ ActiveRecord::Schema.define(version: 20160903121527) do
     t.integer  "team_id"
     t.string   "name"
     t.string   "description"
-    t.datetime "day"
-    t.string   "start_hour"
-    t.string   "end_hour"
+    t.datetime "start_at"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "full_image_url"
@@ -106,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160903121527) do
     t.string   "medium_image_url"
     t.string   "thumb_image_url"
     t.string   "uid"
+    t.datetime "end_at"
     t.index ["team_id"], name: "index_meetings_on_team_id", using: :btree
   end
 

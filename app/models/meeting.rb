@@ -1,5 +1,6 @@
 class Meeting < ActiveRecord::Base
-  after_create :create_attendances, :create_uid
+  before_create :create_uid
+  after_create :create_attendances
   after_destroy :destroy_attendances
 
   belongs_to :team
@@ -11,7 +12,8 @@ class Meeting < ActiveRecord::Base
 
   #Validation
   validates :name, presence: {message: "Name must be"}
-  validates :day, presence: {message: "Day must be"}
+  validates :start_at, presence: {message: "Start date must be"}
+  validates :end_at, presence: {message: "End date must be"}
 
   def serialize
     MeetingSerializer.new(self).attributes

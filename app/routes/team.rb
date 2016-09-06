@@ -33,7 +33,6 @@ module Routes
         resolve upload_image
       end
 
-
       get "/admin" do
         resolve get_admin
       end

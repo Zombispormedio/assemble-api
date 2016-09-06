@@ -38,19 +38,21 @@ module BaseController
       fields[:description]=body["description"]
     end
 
-    if body.include?("day")
-      fields[:day]=body["day"]
+
+    if body.include?("start_at")
+      fields[:start_at]=body["start_at"]
     end
 
-    if body.include?("start_hour")
-      fields[:start_hour]=body["start_hour"]
-    end
-
-    if body.include?("end_hour")
-      fields[:end_hour]=body["end_hour"]
+    if body.include?("end_at")
+      fields[:end_at]=body["end_at"]
     end
 
     fields
+  end
+
+  def get_meeting
+    team_ids=@user.teams.select("id")
+    Meeting.where('team_id IN (?) AND id=(?)', team_ids, @meeting_id).first
   end
 
 end
