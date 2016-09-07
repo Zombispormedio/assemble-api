@@ -80,5 +80,9 @@ class User < ActiveRecord::Base
     meetings.map{|meeting| PreviewMeetingSerializer.new(meeting).attributes}
   end
 
+  def serialized_chats
+    self.chats.map{|chat| PreviewChatSerializer.new(chat).attributes}
+  end
+
 
 end

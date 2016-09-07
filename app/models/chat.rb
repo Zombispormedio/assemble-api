@@ -8,6 +8,10 @@ class Chat < ActiveRecord::Base
   has_many :incomings, dependent: :destroy
   has_many :messages, :through => :incomings
 
+  def serialize
+    ChatSerializer.new(self).attributes
+  end
+
   private
 
   def create_reverse_chat

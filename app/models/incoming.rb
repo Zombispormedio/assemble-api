@@ -1,5 +1,5 @@
 class Incoming < ActiveRecord::Base
-  after_create :create_reverse_incoming, :add_header_message
+  after_create :create_reverse_incoming
   after_destroy :destroy_reverse_incoming
 
   belongs_to :chat
@@ -7,7 +7,13 @@ class Incoming < ActiveRecord::Base
 
   def create_reverse_incoming
     reverse_chat=Chat.find_by(owner: chat.friend)
-    reverse_chat.messages << message if reverse_chat.messages.find_by(id: message.id).nil?
+
+    if reverse_chat.messages.find_by(id: message.id).nil?
+      reverse_chat.messages << message
+      add_header_message
+      add_sender
+    end
+
   end
 
   def add_header_message
@@ -15,8 +21,20 @@ class Incoming < ActiveRecord::Base
     message.recipient_id=chat.friend.id
     message.save
   end
+
+  def add_sender
+    sender_id=message.sender_id
+    reverse_incoming=get_reverse_incoming
+    self.update(sender_id: sender_id)
+    reverse_incoming.update(sender_id: sender_id)
+  end
+
   def destroy_reverse_incoming
-    reverse_chat=Chat.find_by(friend: chat.owner)
-    reverse_chat.destroy if  reverse_chat
+    reverse_incoming=get_reverse_incoming
+    reverse_incoming.destroy if  reverse_incoming
+  end
+
+  def get_reverse_incoming
+    Incoming.where("id != ? AND message_id = ?", self.id, self.message_id)
   end
 end
