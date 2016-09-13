@@ -1,6 +1,6 @@
 class Incoming < ActiveRecord::Base
   after_create :create_reverse_incoming
-  after_destroy :destroy_reverse_incoming
+  after_destroy :destroy_message, :destroy_reverse_incoming
 
   belongs_to :chat
   belongs_to :message
@@ -24,14 +24,25 @@ class Incoming < ActiveRecord::Base
 
   def add_sender
     sender_id=message.sender_id
-    reverse_incoming=get_reverse_incoming
+    reverse_incoming=get_reverse_incoming[0]
     self.update(sender_id: sender_id)
     reverse_incoming.update(sender_id: sender_id)
   end
 
   def destroy_reverse_incoming
-    reverse_incoming=get_reverse_incoming
-    reverse_incoming.destroy if  reverse_incoming
+    reverse_incoming=get_reverse_incoming[0]
+    if not reverse_incoming.nil?
+      reverse_incoming.destroy
+    end
+  end
+
+  def destroy_message
+   message= Message.find(self.message_id) rescue nil;
+
+    if not message.nil?
+      message.destroy
+    end
+
   end
 
   def get_reverse_incoming
