@@ -33,6 +33,10 @@ require_relative 'app/serializers/sender_serializer'
 require_relative 'app/serializers/profile_serializer'
 require_relative 'app/serializers/admin_serializer'
 require_relative 'app/serializers/member_serializer'
+
+require_relative 'app/serializers/friend_serializer'
+require_relative 'app/serializers/preview_friend_serializer'
+
 require_relative 'app/serializers/preview_team_serializer'
 require_relative 'app/serializers/preview_meeting_serializer'
 require_relative 'app/serializers/team_meeting_serializer'

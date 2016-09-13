@@ -3,24 +3,26 @@ module FriendshipController
   def search_new_friends(search_text)
     friend_ids=@user.friends.select("id").map { |item| item.id }
 
-    users=User.select(Selection.USER)
-              .where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
+    users=User.where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
                      "#{search_text}%", "#{search_text}%", friend_ids)
 
 
-    {:data => users}
+    {:data => users.map{|user| PreviewFriendSerializer.new(user).attributes}}
   end
 
   def get_friends
-    friends=@user.friends.select(Selection.FRIEND)
-
-    {:data => friends}
-
+    {:data => @user.serialized_friends}
   end
 
   def get_friend_by_id(id)
-    friend=@user.friends.select(Selection.FRIEND_BY_ID).find_by(id: id)
-    {:data => friend}
+    result=Hash.new
+    friend=@user.friends.find_by(id: id) rescue nil;
+    if friend.nil?
+      result[:error]={:msg => "Friend not found"}
+    else
+      result[:data]=friend.serialize_like_friend
+    end
+    result
   end
 
   def ask_for_new_friend(id)
@@ -44,14 +46,18 @@ module FriendshipController
   end
 
   def get_friend_requests
-    friends=@user.friend_requests.select(Selection.FRIEND_REQUEST)
-
-    {:data => friends}
+    {:data => @user.serialized_friend_requests}
   end
 
   def get_friend_request_by_id(id)
-    friend=@user.friend_requests.select(Selection.FRIEND_REQUEST_BY_ID).find_by(id: id)
-    {:data => friend}
+    result=Hash.new
+    friend=@user.friend_requests.find_by(id: id) rescue nil;
+    if friend.nil?
+      result[:error]={:msg => "Possible Friend not found"}
+    else
+      result[:data]=friend.serialize_like_friend
+    end
+    result
   end
 
   def accept_friend(id)
@@ -61,7 +67,7 @@ module FriendshipController
       FriendshipRequest.find_by(friend_request_id: id).destroy
       @user.friends << request_user
 
-      result[:data]={:msg => "Friend request accepted"}
+      result[:data]=@user.serialized_friends
     else
       result[:error]={:msg => "Don't have that friend request"}
     end
@@ -76,7 +82,7 @@ module FriendshipController
     if not request_user.nil?
       FriendshipRequest.find_by(friend_request_id: id).destroy
 
-      result[:data]={:msg => "Friend request rejected"}
+      result[:data]=@user.serialized_friend_requests
     else
       result[:error]={:msg => "Don't have that friend request"}
     end
@@ -90,7 +96,7 @@ module FriendshipController
     friend=@user.friends.find_by(id: id)
     if not friend.nil?
       Friendship.find_by(friend_id: id).destroy
-      result[:data]=@user.friends.select(Selection.FRIEND)
+      result[:data]=@user.serialized_friends
     else
       result[:error]={:msg => "Don't have that friend"}
     end

@@ -1,6 +1,6 @@
 module BaseController
   def profile
-    ProfileSerializer.new(User.find_by uid: @user.uid).attributes
+    ProfileSerializer.new(@user).attributes
   end
 
   def upload(id, file)

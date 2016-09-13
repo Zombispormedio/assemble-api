@@ -84,5 +84,16 @@ class User < ActiveRecord::Base
     self.chats.map{|chat| PreviewChatSerializer.new(chat).attributes}
   end
 
+  def serialized_friends
+    self.friends.map{|friend| PreviewFriendSerializer.new(friend).attributes}
+  end
+
+  def serialize_like_friend
+    FriendSerializer.new(self).attributes
+  end
+
+  def serialized_friend_requests
+    self.friend_requests.map{|friend| PreviewFriendSerializer.new(friend).attributes}
+  end
 
 end
