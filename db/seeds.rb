@@ -8,10 +8,12 @@
 
 
 
-User.find(66).chats.create(friend: User.find(117))
+#User.find(66).chats.create(friend: User.find(117))
 
-User.find(66).chats.find_by(friend_id: 117).messages.create(content: "hello 117")
+#User.find(66).chats.find_by(friend_id: 117).messages.create(content: "hello 117")
 
-User.find(117).chats.find_by(friend_id: 66).messages.create(content: "hello 66")
+#User.find(117).chats.find_by(friend_id: 66).messages.create(content: "hello 66")
 
 #User.find(66).chats.first.destroy
+
+p User.find(66).friend_requests

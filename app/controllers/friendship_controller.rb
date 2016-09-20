@@ -83,7 +83,7 @@ module FriendshipController
       FriendshipRequest.find_by(friend_request_id: id).destroy
       @user.friends << request_user
 
-      result[:data]=@user.serialized_friends
+      result[:data]=@user.serialized_friend_requests
     else
       result[:error]={:msg => "Don't have that friend request"}
     end
