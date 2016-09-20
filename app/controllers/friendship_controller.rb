@@ -2,15 +2,28 @@ module FriendshipController
 
   def search_new_friends(search_text)
     friend_ids=@user.friends.select("id").map { |item| item.id }
-    friend_requests_ids=@user.friend_requests.select("id").map{|item| item.id}
+    friend_requests_ids=@user.friend_requests.select("id").map { |item| item.id }
 
     ids=friend_ids.concat friend_requests_ids
 
     users=User.where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
                      "#{search_text}%", "#{search_text}%", ids)
+    users=users.map do |user|
+        serialized_user=PreviewFriendSerializer.new(user).attributes
+        p serialized_user[:id]
+        p @user.id
+        in_request=FriendshipRequest.find_by(friend_request_id: @user.id, user_id:serialized_user[:id] ) rescue nil
+        p in_request
+        unless in_request.nil?
+          p "yes"
+          serialized_user[:in_request]=true
+        end
+        serialized_user
+
+    end
 
 
-    {:data => users.map{|user| PreviewFriendSerializer.new(user).attributes}}
+    {:data => users}
   end
 
   def get_friends
