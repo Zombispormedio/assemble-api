@@ -1,11 +1,8 @@
-
 #Team.find(7).meetings.create(name:"Cafetito", day:"2016-09-16T11:20:10.523Z")
 
 #User.find(66).teams.create(name:"sudorosos")
 
 #Meeting.all.each{|item| item.update(end_at:"2016-09-16T20:20:10.523Z")}
-
-
 
 
 #User.find(66).chats.create(friend: User.find(117))
@@ -16,4 +13,13 @@
 
 #User.find(66).chats.first.destroy
 
-p User.find(66).friend_requests
+user=User.find(66)
+
+
+(90..117).each do |id|
+  friend=user.friends.find_by(id: id) rescue nil
+  if friend.nil?
+    req=User.find(id)
+    user.friend_requests<<req
+  end
+end
