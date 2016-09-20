@@ -1,9 +1,8 @@
 module FriendshipController
 
   def search_new_friends(search_text)
-    users=[]
     ids=[@user.id]
-    if @users.friends.size >0
+    if @user.friends.size >0
       friend_ids=@user.friends.select("id").map { |item| item.id }
       ids=ids.concat friend_ids
 
