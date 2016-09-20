@@ -31,7 +31,7 @@ module FriendshipController
     if @user.friends.find_by(id: id).nil?
       if @user.friend_requests.find_by(id: id).nil?
         User.find(id).friend_requests << @user
-        result[:data]= @user.serialized_friend_requests
+        result[:data]= {:msg => "Friend request sent"}
       else
         result[:error]={:msg => "You have a request from this friend"}
       end
