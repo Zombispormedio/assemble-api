@@ -2,9 +2,12 @@ module FriendshipController
 
   def search_new_friends(search_text)
     friend_ids=@user.friends.select("id").map { |item| item.id }
+    friend_requests_ids=@user.friend_requests.select("id").map{|item| item.id}
+
+    ids=friend_ids.concat friend_requests_ids
 
     users=User.where("(email LIKE ? OR username LIKE ?) AND id NOT IN (?)",
-                     "#{search_text}%", "#{search_text}%", friend_ids)
+                     "#{search_text}%", "#{search_text}%", ids)
 
 
     {:data => users.map{|user| PreviewFriendSerializer.new(user).attributes}}
