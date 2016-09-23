@@ -2,6 +2,14 @@ class User < ActiveRecord::Base
   #mixins
   include Utils
 
+  before_create do
+    self.uid = SecureRandom.uuid
+    self.sign_up_at=Time.now
+    self.username=getUniqueUsernameByEmail(self.email) if self.username.nil?
+    p self.username
+    encryptPassword
+  end
+
   #friends
   has_many :friendships, dependent: :destroy
   has_many :friends, :through => :friendships
@@ -38,7 +46,6 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: {case_sensitive: false, message: "You are registered"}
 
   validates :username, uniqueness: {case_sensitive: false, message: "Username is used"}
-  validates :username, presence: {message: "Username must be"}
 
 
   validates :bio, presence: {message: "Bio must be"}, on: :update, allow_blank: true
@@ -46,12 +53,7 @@ class User < ActiveRecord::Base
   validates :birth_date, presence: {message: "Birthdate must be"}, on: :update, allow_blank: true
 
 
-  before_create do
-    self.uid = SecureRandom.uuid
-    self.sign_up_at=Time.now
-    self.username=getUniqueUsernameByEmail(self.email) if self.username.nil?
-    encryptPassword
-  end
+
 
   def getUniqueUsernameByEmail(email)
     prefix=email.split("@")[0]
