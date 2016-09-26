@@ -191,7 +191,6 @@ module TeamController
 
       unless friend.nil?
         is_member=team.members.find(id) rescue nil;
-        p is_member
         if is_member.nil?
           team.members << User.find(id)
           if not is_new
