@@ -34,6 +34,11 @@ module TeamController
       result[:error]=team.errors
     else
       @user.teams << team
+
+      if params.include? "members"
+        insert_members(team,  params["members"], false)
+      end
+
       result[:data]=team.serialize
 
     end
@@ -166,13 +171,21 @@ module TeamController
     end
 
 
-   if @user.id != team.admin_id
+    if @user.id != team.admin_id
       result[:error]={:msg => "You aren't admin"} if @user.id != team.admin_id
       return result
     end
 
+    insert_members(team,  @new_members, false)
 
-    @new_members.each do |id|
+    result[:data]=team.serialize
+
+    result
+  end
+
+
+  def insert_members(team, members, is_new)
+    members.each do |id|
 
       friend=@user.friends.find_by(id: id) rescue nil
 
@@ -181,20 +194,17 @@ module TeamController
         p is_member
         if is_member.nil?
           team.members << User.find(id)
-          add_new_member_to_meeting(team, id)
+          if not is_new
+            add_new_member_to_meeting(team, id)
+          end
         end
       end
     end
-
-
-    result[:data]=team.serialize
-
-    result
   end
 
-  def add_new_member_to_meeting(team,id)
-    membership=team.memberships.find_by(member_id:id) rescue nil
-    team.meetings.each { |meeting| meeting.attendances.create( {attendant: membership})}
+  def add_new_member_to_meeting(team, id)
+    membership=team.memberships.find_by(member_id: id) rescue nil
+    team.meetings.each { |meeting| meeting.attendances.create({attendant: membership}) }
   end
 
   def delete_member

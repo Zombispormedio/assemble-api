@@ -47,7 +47,7 @@ module Routes
       end
 
       patch "/members" do
-        @new_members=bind_body["members"]
+        @new_members=bind_body["members"] || []
         resolve add_members
       end
 
