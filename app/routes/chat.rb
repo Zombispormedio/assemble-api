@@ -11,5 +11,20 @@ module Routes
       resolve create_chat
     end
 
+    namespace "/chat/:id" do
+      before do
+        @chat_id=params["id"]
+      end
+
+      get "/messages" do
+        resolve get_messages
+      end
+
+      put "/message" do
+        @body=bind_body
+        resolve create_message
+      end
+    end
+
   end
 end

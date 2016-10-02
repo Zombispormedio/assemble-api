@@ -12,6 +12,10 @@ class Chat < ActiveRecord::Base
     ChatSerializer.new(self).attributes
   end
 
+  def serialized_messages
+    self.messages.map {|message| message.serialize}
+  end
+
   private
 
   def create_reverse_chat

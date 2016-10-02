@@ -7,22 +7,22 @@ module ChatController
   def create_chat
     result=Hash.new
 
-   if not @body.include?("friend")
-     result[:error]={:msg => "Where is your friend"};
+   unless @body.include?("friend")
+     result[:error]={:msg => "Where is your friend"}
      return result
    end
 
-    friend=@user.friends.find_by(id: @body["friend"]) rescue nil;
+    friend=@user.friends.find_by(id: @body["friend"]) rescue nil
 
     if friend.nil?
-      result[:error]={:msg => "Sorry, it's not your friend. Try to do it."};
+      result[:error]={:msg => "Sorry, it's not your friend. Try to do it."}
       return result
     end
 
-    have_chat=@user.chats.find_by(friend_id: @body["friend"]) rescue nil;
+    have_chat=@user.chats.find_by(friend_id: @body["friend"]) rescue nil
 
-    if not have_chat.nil?
-      result[:error]={:msg => "You have chat with your friend"};
+    unless have_chat.nil?
+      result[:error]={:msg => "You have chat with your friend"}
       return result
     end
 
@@ -32,6 +32,38 @@ module ChatController
       result[:error]=chat.errors
     else
       result[:data]=chat.serialize
+    end
+
+    result
+  end
+
+  def get_messages
+    result=Hash.new
+    chat=@user.chats.find(@chat_id) rescue nil
+    if chat.nil?
+      result[:error]={:msg => "You don't have this chat"}
+      return result
+    end
+
+    result[:data]=chat.serialized_messages
+
+    result
+  end
+
+  def create_message
+    result=Hash.new
+    chat=@user.chats.find(@chat_id) rescue nil
+    if chat.nil?
+      result[:error]={:msg => "You don't have this chat"}
+      return result
+    end
+
+    message=chat.messages.create(content: @body["content"], is_sent: true)
+
+    if message.errors.any?
+      result[:error]=message.errors
+    else
+      result[:data]=message.serialize
     end
 
     result

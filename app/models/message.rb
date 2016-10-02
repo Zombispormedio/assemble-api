@@ -6,4 +6,10 @@ class Message < ActiveRecord::Base
   before_create do
     self.uid = SecureRandom.uuid
   end
+
+  validates :content, presence: {message: "Content must be"}
+
+  def serialize
+    MessageSerializer.new(self).attributes
+  end
 end
