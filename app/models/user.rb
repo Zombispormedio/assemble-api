@@ -83,7 +83,7 @@ class User < ActiveRecord::Base
   end
 
   def serialized_chats
-    self.chats.map{|chat| PreviewChatSerializer.new(chat).attributes}
+    self.chats.map{|chat| ChatSerializer.new(chat).attributes}
   end
 
   def serialized_friends
