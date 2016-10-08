@@ -71,8 +71,8 @@ module ChatController
 
 
   def get_chats_messages
+    Message.where(recipient_id:66, is_read:nil, is_sent:true).update_all(is_delivered:true)
     {:data => @user.serialized_chats_messages}
-
   end
 
 end

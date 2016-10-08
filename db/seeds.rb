@@ -13,13 +13,3 @@
 
 #User.find(66).chats.first.destroy
 
-user=User.find(66)
-
-
-(90..117).each do |id|
-  friend=user.friends.find_by(id: id) rescue nil
-  if friend.nil?
-    req=User.find(id)
-    user.friend_requests<<req
-  end
-end
