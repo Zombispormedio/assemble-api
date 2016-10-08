@@ -6,6 +6,10 @@ module Routes
       resolve get_chats
     end
 
+    get "/chats/messages" do
+      resolve get_chats_messages
+    end
+
     post "/chat" do
       @body=bind_body
       resolve create_chat

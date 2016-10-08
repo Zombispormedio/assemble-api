@@ -69,4 +69,10 @@ module ChatController
     result
   end
 
+
+  def get_chats_messages
+    {:data => @user.serialized_chats_messages}
+
+  end
+
 end

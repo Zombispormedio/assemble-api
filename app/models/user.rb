@@ -53,8 +53,6 @@ class User < ActiveRecord::Base
   validates :birth_date, presence: {message: "Birthdate must be"}, on: :update, allow_blank: true
 
 
-
-
   def getUniqueUsernameByEmail(email)
     prefix=email.split("@")[0]
     count=User.where("username LIKE '#{prefix}%'").count
@@ -72,22 +70,22 @@ class User < ActiveRecord::Base
   end
 
   def serialized_teams
-    self.teams.map{|team| PreviewTeamSerializer.new(team).attributes}
+    self.teams.map { |team| PreviewTeamSerializer.new(team).attributes }
   end
 
   def serialized_meetings
     team_ids=self.teams.select("id")
     meetings=Meeting.where('team_id IN (?)', team_ids)
 
-    meetings.map{|meeting| PreviewMeetingSerializer.new(meeting).attributes}
+    meetings.map { |meeting| PreviewMeetingSerializer.new(meeting).attributes }
   end
 
   def serialized_chats
-    self.chats.map{|chat| ChatSerializer.new(chat).attributes}
+    self.chats.map { |chat| ChatSerializer.new(chat).attributes }
   end
 
   def serialized_friends
-    self.friends.map{|friend| PreviewFriendSerializer.new(friend).attributes}
+    self.friends.map { |friend| PreviewFriendSerializer.new(friend).attributes }
   end
 
   def serialize_like_friend
@@ -95,7 +93,16 @@ class User < ActiveRecord::Base
   end
 
   def serialized_friend_requests
-    self.friend_requests.map{|friend| PreviewFriendSerializer.new(friend).attributes}
+    self.friend_requests.map { |friend| PreviewFriendSerializer.new(friend).attributes }
+  end
+
+  def serialized_chats_messages
+    self.chats.inject([]) do |memo, chat|
+      memo+chat.serialized_messages.map do |message|
+        message[:chat_id]=chat.id
+        message
+      end
+    end
   end
 
 end
