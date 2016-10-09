@@ -6,7 +6,8 @@ class Incoming < ActiveRecord::Base
   belongs_to :message
 
   def create_reverse_incoming
-    reverse_chat=Chat.find_by(owner: chat.friend)
+
+    reverse_chat=Chat.find_by(owner: chat.friend, friend: chat.owner)
 
     if reverse_chat.messages.find_by(id: message.id).nil?
       reverse_chat.messages << message
@@ -31,7 +32,7 @@ class Incoming < ActiveRecord::Base
 
   def destroy_reverse_incoming
     reverse_incoming=get_reverse_incoming[0]
-    if not reverse_incoming.nil?
+    unless reverse_incoming.nil?
       reverse_incoming.destroy
     end
   end
@@ -39,7 +40,7 @@ class Incoming < ActiveRecord::Base
   def destroy_message
    message= Message.find(self.message_id) rescue nil;
 
-    if not message.nil?
+    unless message.nil?
       message.destroy
     end
 

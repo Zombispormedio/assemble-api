@@ -12,4 +12,6 @@
 #User.find(117).chats.find_by(friend_id: 66).messages.create(content: "hello 66")
 
 #User.find(66).chats.first.destroy
+chat=User.find(66).chats.find(11)
 
+chat.messages.create(content: "Mierda!!!!" , is_sent: true)
