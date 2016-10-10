@@ -63,7 +63,9 @@ module ChatController
     if message.errors.any?
       result[:error]=message.errors
     else
-      result[:data]=message.serialize
+      t=message.serialize
+      t[:chat_id]=@chat_id
+      result[:data]=t
     end
 
     result
