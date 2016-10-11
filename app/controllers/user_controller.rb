@@ -37,13 +37,13 @@ module UserController
 
     @user.update(email: new_email)
 
-    unless @user.errors.any?
+    if not @user.errors.any?
       result[:data]={:msg => "Email changed"}
     else
       result[:error]=@user.errors
     end
 
-    return result
+    result
   end
 
   def change_password(new_password)
@@ -53,13 +53,32 @@ module UserController
     @user.encryptPassword
     @user.save
 
-    unless @user.errors.any?
+    if not @user.errors.any?
       result[:data]={:msg => "Password changed"}
     else
       result[:error]=@user.errors
     end
 
-    return result
+    result
+  end
+
+  def refresh_gcm
+    result=Hash.new
+
+    unless @body.include?("gcm_token")
+      result[:error]={:msg=>"Where is GCM token?"}
+      return result
+    end
+
+    @user.update(gcm_token: @body["gcm_token"])
+
+    if not @user.errors.any?
+      result[:data]={:msg => "GCM changed"}
+    else
+      result[:error]=@user.errors
+    end
+
+    result
   end
 
 

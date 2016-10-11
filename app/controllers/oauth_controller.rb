@@ -1,9 +1,19 @@
 module OAuthController
 
-  def signup(email, password)
+  def signup
     result= Hash.new
 
-    promise=User.create(email: email, password: password)
+    fields=Hash.new
+
+    fields[:email]=@body["email"]
+    fields[:password]=@body["password"]
+
+    if @body.include?("gcm_token")
+      gcm_token=@body["gcm_token"]
+      fields[:gcm_token]=gcm_token unless gcm_token.nil?
+    end
+
+    promise=User.create(fields)
     if promise.errors.any?
       result[:error]=promise.errors
     else
@@ -13,18 +23,27 @@ module OAuthController
 
   end
 
-  def login(email, password)
+  def login
     result= Hash.new
 
-    user=User.find_by email: email
+    user=User.find_by email: @body["email"]
 
     if user.nil?
       result[:error]={msg: "User doesn't exist"}
     else
 
-      if user.authenticate password
+      if user.authenticate @body["password"]
 
-        if not user.update(current_sign_in_at: Time.now)
+        fields=Hash.new
+
+        fields[:current_sign_in_at]=Time.now
+
+        if @body.include?("gcm_token")
+          gcm_token=@body["gcm_token"]
+          fields[:gcm_token]=gcm_token unless gcm_token.nil?
+        end
+
+        if not user.update(fields)
           result[:error]=user.errors
         else
           session=SessionHelper.new

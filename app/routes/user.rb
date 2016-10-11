@@ -24,6 +24,11 @@ module Routes
       resolve change_email body["email"]
     end
 
+    patch "/gcm" do
+      @body=bind_body
+      resolve refresh_gcm
+    end
+
 
   end
 

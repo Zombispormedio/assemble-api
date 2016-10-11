@@ -3,17 +3,17 @@ module Routes
     include OAuthController
 
 
-      post "/signup" do
-        body=bind_body
-        resolve  signup body["email"], body["password"]
-      end
+    post "/signup" do
+      @body=bind_body
+      resolve signup
+    end
 
 
-      post "/login" do
-        body=bind_body
-        resolve  login body["email"], body["password"]
+    post "/login" do
+      @body=bind_body
+      resolve login
 
-      end
+    end
 
 
   end
