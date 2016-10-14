@@ -78,7 +78,7 @@ module ChatController
 
       p notification.title_key("new_message_title")
           .click_action("NEW_MESSAGE_ACTION")
-          .body(m.content)
+          .body(message.content)
           .user(friend.gcm_token)
           .set_data(m)
           .send
