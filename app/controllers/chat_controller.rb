@@ -7,10 +7,10 @@ module ChatController
   def create_chat
     result=Hash.new
 
-   unless @body.include?("friend")
-     result[:error]={:msg => "Where is your friend"}
-     return result
-   end
+    unless @body.include?("friend")
+      result[:error]={:msg => "Where is your friend"}
+      return result
+    end
 
     friend=@user.friends.find_by(id: @body["friend"]) rescue nil
 
@@ -73,8 +73,25 @@ module ChatController
 
 
   def get_chats_messages
-    Message.where(recipient_id:66, is_read:nil, is_sent:true).update_all(is_delivered:true)
+    Message.where(recipient_id: 66, is_read: nil, is_sent: true).update_all(is_delivered: true)
     {:data => @user.serialized_chats_messages}
+  end
+
+
+  def read_messages
+    result=Hash.new
+    chat=@user.chats.find(@chat_id) rescue nil
+    if chat.nil?
+      result[:error]={:msg => "You don't have this chat"}
+      return result
+    end
+    messages= chat.messages.where(id: @body["messages"])
+
+    messages.update_all(is_read: true)
+
+    result[:data]=messages.map { |msg| msg.serialize }
+
+    result
   end
 
 end

@@ -28,6 +28,12 @@ module Routes
         @body=bind_body
         resolve create_message
       end
+
+      put "/messages/read" do
+        @body=bind_body
+        resolve read_messages
+      end
+
     end
 
   end

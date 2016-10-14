@@ -30,3 +30,5 @@ gem 'rmagick'
 
 gem 'aws-sdk', '~> 2'
 
+gem 'rest-client', '~> 1.8'
+
