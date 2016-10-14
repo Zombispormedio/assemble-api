@@ -77,7 +77,7 @@ module ChatController
           .click_action("NEW_MESSAGE_ACTION")
           .body(message.content)
           .user(friend.gcm_token)
-          .set_data(message)
+          .set_data(message.serialize)
           .send
     end
 
