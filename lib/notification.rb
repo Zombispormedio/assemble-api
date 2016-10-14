@@ -1,8 +1,6 @@
 require 'rest-client'
 
 class Notification
-  private :url, :headers, :notification, :to, :data
-
   def initialize
     @url=ENV["FIREBASE_HOST"]
     @headers={
