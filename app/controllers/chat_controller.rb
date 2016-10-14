@@ -74,14 +74,16 @@ module ChatController
       notification= Notification.new
 
       m=message.serialize
-      m[:chat_id]=@chat_id
-
-      p notification.title_key("new_message_title")
-          .click_action("NEW_MESSAGE_ACTION")
-          .body(message.content)
-          .user(friend.gcm_token)
-          .set_data(m)
-          .send
+      friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id:@user.id) rescue nil
+      unless friend_chat.nil?
+        m[:chat_id]=friend_chat.id
+        p notification.title_key("new_message_title")
+              .click_action("NEW_MESSAGE_ACTION")
+              .body(message.content)
+              .user(friend.gcm_token)
+              .set_data(m)
+              .send
+      end
     end
 
     result
