@@ -71,7 +71,7 @@ module ChatController
     unless @user.gcm_token.nil?
       notification= Notification.new
 
-      notification.title_key("new_message_title")
+      p notification.title_key("new_message_title")
           .click_action("NEW_MESSAGE_ACTION")
           .body(message.content)
           .user(@user.gcm_token)

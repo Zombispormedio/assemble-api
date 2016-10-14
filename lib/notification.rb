@@ -36,12 +36,18 @@ class Notification
   end
 
   def send
-    RestClient.post(@url, {
-        to: @to,
-        notification: @notification,
-        data: @data
-    }.to_json, @headers)
+    begin
+     response= RestClient.post(@url, {
+          to: @to,
+          notification: @notification,
+          data: @data
+      }.to_json, @headers)
 
+    rescue RestClient::ExceptionWithResponse => e
+      p e.response
+    end
+
+    response
   end
 
 end
