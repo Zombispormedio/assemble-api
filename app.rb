@@ -20,6 +20,7 @@ require_relative "lib/jwt_wrapper"
 
 require_relative "lib/s3_wrapper"
 require_relative "lib/magick_wrapper"
+require_relative "lib/notification"
 
 require_relative 'lib/utils'
 require_relative 'app/helpers/response_helper'
