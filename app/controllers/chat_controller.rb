@@ -68,13 +68,15 @@ module ChatController
       result[:data]=t
     end
 
-    unless @user.gcm_token.nil?
+    friend=chat.friend
+
+    unless friend.gcm_token.nil?
       notification= Notification.new
 
       p notification.title_key("new_message_title")
           .click_action("NEW_MESSAGE_ACTION")
           .body(message.content)
-          .user(@user.gcm_token)
+          .user(friend.gcm_token)
           .set_data(message)
           .send
     end
