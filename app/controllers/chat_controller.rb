@@ -82,7 +82,7 @@ module ChatController
           .contents({es: m[:content]})
           .data(m)
           .email(friend.email)
-          .group_message(Notification.MESSAGE_GROUP_NOTIFICATION)
+          .group_message(Notification::MESSAGE_GROUP_NOTIFICATION)
           .send
     end
 
