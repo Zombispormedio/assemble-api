@@ -78,7 +78,7 @@ module ChatController
       m[:chat_id]=friend_chat.id
 
 
-      notification.template(ENV["MESSAGE_TEMPLATE_ID"])
+      p notification.template(ENV["MESSAGE_TEMPLATE_ID"])
           .contents({en: m[:content]})
           .data(m)
           .email(friend.email)
