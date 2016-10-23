@@ -54,7 +54,7 @@ class Notification
   def send
     begin
       response= RestClient.post(@url, @obj.to_json, @headers)
-
+      p @obj
     rescue RestClient::ExceptionWithResponse => e
       p e.response
     end
