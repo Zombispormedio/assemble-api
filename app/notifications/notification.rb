@@ -12,7 +12,6 @@ class Notification
         Authorization: ENV["NOTIFICATION_KEY"]
     }
     @obj={app_id:ENV["NOTIFICATION_APP_ID"], template_id:MESSAGE_TEMPLATE}
-    @obj[:filters]=Hash.new
     @obj[:android_group]=MESSAGE_GROUP
   end
 
@@ -38,7 +37,7 @@ class Notification
 
 
   def email(e)
-    @obj[:filters][:email]=e
+    @obj[:filters]=[{field:"email", value:e}]
     self
   end
 
