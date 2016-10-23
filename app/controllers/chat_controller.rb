@@ -70,21 +70,22 @@ module ChatController
 
     friend=chat.friend
 
-    unless friend.gcm_token.nil?
-      notification= Notification.new
+    notification= Notification.new
 
+    friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id: @user.id) rescue nil
+    unless friend_chat.nil?
       m=message.serialize
-      friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id:@user.id) rescue nil
-      unless friend_chat.nil?
-        m[:chat_id]=friend_chat.id
-        p notification.title_key("new_message_title")
-              .click_action("NEW_MESSAGE_ACTION")
-              .body(message.content)
-              .user(friend.gcm_token)
-              .set_data(m)
-              .send
-      end
+      m[:chat_id]=friend_chat.id
+
+
+      notification.template(ENV["MESSAGE_TEMPLATE_ID"])
+          .contents({es: m.contet})
+          .data(m)
+          .email(friend.email)
+          .group_message(Notification.MESSAGE_GROUP_NOTIFICATION)
+          .send
     end
+
 
     result
   end
