@@ -37,7 +37,7 @@ class Notification
 
 
   def email(e)
-    @obj[:filters]=[{field:"email", value:e}]
+    @obj[:filters]=[{field:"email",  "relation": "=", value:e}]
     self
   end
 
