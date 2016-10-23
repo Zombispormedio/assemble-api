@@ -79,7 +79,7 @@ module ChatController
 
 
       notification.template(ENV["MESSAGE_TEMPLATE_ID"])
-          .contents({es: m.content})
+          .contents({es: m[:content]})
           .data(m)
           .email(friend.email)
           .group_message(Notification.MESSAGE_GROUP_NOTIFICATION)
