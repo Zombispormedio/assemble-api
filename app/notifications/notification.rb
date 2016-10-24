@@ -1,7 +1,6 @@
 require 'rest-client'
 
 class Notification
-  include NotificationCompat
   include NotificationI18N
 
 
@@ -12,11 +11,10 @@ class Notification
         Authorization: ENV["NOTIFICATION_KEY"]
     }
     @obj={app_id:ENV["NOTIFICATION_APP_ID"]}
-    @obj[:android_group]=MESSAGE_GROUP
   end
 
   def template(t)
-    @obj[:template_id]=t
+    t.each{|k, v| @obj[k]=v}
     self
   end
 
@@ -38,16 +36,6 @@ class Notification
 
   def email(e)
     @obj[:filters]=[{field:"email",  value:e}]
-    self
-  end
-
-  def group(g)
-    @obj[:android_group]=g
-    self
-  end
-
-  def group_message(m)
-    @obj[:android_group_message]=m
     self
   end
 

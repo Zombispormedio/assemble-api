@@ -78,11 +78,10 @@ module ChatController
       m[:chat_id]=friend_chat.id
 
 
-      p notification.template(ENV["MESSAGE_TEMPLATE_ID"])
+      p notification.template(Notification::MESSAGE_TEMPLATE)
           .contents({en: m[:content]})
           .data(m)
           .email(friend.email)
-          .group_message(Notification::MESSAGE_GROUP_NOTIFICATION)
           .send
     end
 

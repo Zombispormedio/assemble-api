@@ -29,7 +29,6 @@ require_relative 'app/helpers/selection_helper'
 require_relative 'app/helpers/image_helper'
 
 require_relative 'app/notifications/notification_i18_n'
-require_relative 'app/notifications/notification_compat'
 require_relative 'app/notifications/notification'
 
 require_relative 'app/serializers/team_message_serializer'
