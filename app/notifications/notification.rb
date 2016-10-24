@@ -11,7 +11,7 @@ class Notification
         content_type: :json, accept: :json,
         Authorization: ENV["NOTIFICATION_KEY"]
     }
-    @obj={app_id:ENV["NOTIFICATION_APP_ID"], template_id:MESSAGE_TEMPLATE}
+    @obj={app_id:ENV["NOTIFICATION_APP_ID"]}
     @obj[:android_group]=MESSAGE_GROUP
   end
 
@@ -37,7 +37,7 @@ class Notification
 
 
   def email(e)
-    @obj[:filters]=[{field:"email",  relation: "=", value:e}]
+    @obj[:filters]=[{field:"email",  value:e}]
     self
   end
 
