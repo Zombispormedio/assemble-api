@@ -19,12 +19,12 @@ class Notification
   end
 
   def contents(c)
-    @obj[:contents]=c
+    @obj[:contents]={en:c}
     self
   end
 
   def heading(h)
-    @obj[:headings]=h
+    @obj[:headings]={en:h}
     self
   end
 
