@@ -80,7 +80,7 @@ module ChatController
 
       p notification.template(Notification::MESSAGE_TEMPLATE)
             .contents(m[:content])
-            .heading(friend.username)
+            .heading(@user.username)
             .data(m)
             .email(friend.email)
             .send
