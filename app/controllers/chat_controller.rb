@@ -76,17 +76,13 @@ module ChatController
     unless friend_chat.nil?
       m=message.serialize
       m[:chat_id]=friend_chat.id
-
-
-      p notification.template(Notification::MESSAGE_TEMPLATE)
+      p notification.template(Notification::MESSAGE)
             .contents(m[:content])
             .heading(@user.username)
             .data(m)
             .email(friend.email)
             .send
     end
-
-
     result
   end
 
@@ -98,17 +94,23 @@ module ChatController
 
 
   def read_messages
+    message_ids=@body["messages"]
     result=Hash.new
     chat=@user.chats.find(@chat_id) rescue nil
     if chat.nil?
       result[:error]={:msg => "You don't have this chat"}
       return result
     end
-    messages= chat.messages.where(id: @body["messages"])
+    messages= chat.messages.where(id: message_ids)
 
     messages.update_all(is_read: true)
 
     result[:data]=messages.map { |msg| msg.serialize }
+
+    p notification.template(Notification::READ_MESSAGE)
+          .data({messages: message_ids.join(",")})
+          .email(chat.friend.email)
+          .send
 
     result
   end
