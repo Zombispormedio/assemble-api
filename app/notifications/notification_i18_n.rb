@@ -28,7 +28,7 @@ module NotificationI18N
           es: "$[notif_count] new friend requests",
           en: "$[notif_count] peticiones de amistad"
       },
-      contents:{en:"#{friend} sent you a friend request", es:"#{friend} te ha enviado una petición de amistad"},
+      contents:{en:"%s sent you a friend request", es:"%s te ha enviado una petición de amistad"},
 
       small_icon: "logo",
       android_accent_color: "2196f3",
@@ -44,7 +44,7 @@ module NotificationI18N
           es: "$[notif_count] accepted friend requets",
           en: "$[notif_count] peticiones de amistad aceptadas"
       },
-      contents:{en:"#{friend} accepted your friend request", es:"#{friend} ha aceptado tu petición de amistad"},
+      contents:{en:"%s accepted your friend request", es:"%s ha aceptado tu petición de amistad"},
       small_icon: "logo",
       android_accent_color: "2196f3",
       data: {
@@ -59,7 +59,7 @@ module NotificationI18N
           es: "$[notif_count] created teams",
           en: "$[notif_count] equipos creados"
       },
-      contents:{en:"#{friend} created #{team} team", es:"#{friend} ha creado el equipo #{team}"},
+      contents:{en:"%s created %s team", es:"%s ha creado el equipo %s"},
       small_icon: "logo",
       android_accent_color: "2196f3",
       data: {
@@ -73,7 +73,7 @@ module NotificationI18N
           es: "$[notif_count] created meetings",
           en: "$[notif_count] reuniones creadas"
       },
-      contents:{en:"#{team} created #{meeting} meeting for #{date}", es:"#{team} have creado la reunión #{meeting} para el #{date}"},
+      contents:{en:"%s created %s meeting for %s", es:"%s have creado la reunión %s para el %s"},
       small_icon: "logo",
       android_accent_color: "2196f3",
       data: {
