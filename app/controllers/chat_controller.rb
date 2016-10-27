@@ -106,7 +106,8 @@ module ChatController
     messages.update_all(is_read: true)
 
     result[:data]=messages.map { |msg| msg.serialize }
-
+    notification= Notification.new
+    
     p notification.template(Notification::READ_MESSAGE)
           .data({messages: message_ids.join(",")})
           .email(chat.friend.email)
