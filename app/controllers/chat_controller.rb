@@ -69,13 +69,11 @@ module ChatController
     end
 
     friend=chat.friend
-
-    notification= Notification.new
-
     friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id: @user.id) rescue nil
     unless friend_chat.nil?
       m=message.serialize
       m[:chat_id]=friend_chat.id
+      notification= Notification.new
       p notification.template(Notification::MESSAGE)
             .contents(m[:content])
             .heading(@user.username)
@@ -106,12 +104,16 @@ module ChatController
     messages.update_all(is_read: true)
 
     result[:data]=messages.map { |msg| msg.serialize }
-    notification= Notification.new
-    
-    p notification.template(Notification::READ_MESSAGE)
-          .data({messages: message_ids.join(",")})
-          .email(chat.friend.email)
-          .send
+
+    friend=chat.friend
+    friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id: @user.id) rescue nil
+    unless friend_chat.nil?
+      notification= Notification.new
+      p notification.template(Notification::READ_MESSAGE)
+            .data({messages: message_ids.join(","), chat_id: friend_chat.id})
+            .email(chat.friend.email)
+            .send
+    end
 
     result
   end
