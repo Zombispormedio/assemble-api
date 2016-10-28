@@ -111,7 +111,7 @@ module ChatController
       notification= Notification.new
       data=message_ids.each_with_index.inject(Hash.new) do |memo, pair|
         element, index=pair
-        memo["read_"+index]=element
+        memo["read_#{index}"]=element
         memo
       end
       data[:read_count]=message_ids.length
