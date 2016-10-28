@@ -109,8 +109,16 @@ module ChatController
     friend_chat=friend.chats.find_by(owner_id: friend.id, friend_id: @user.id) rescue nil
     unless friend_chat.nil?
       notification= Notification.new
+      data=message_ids.each_with_index.inject(Hash.new) do |memo, pair|
+        element, index=pair
+        memo["read"+index]=element
+        memo
+      end
+
+      data[:chat_id]=friend_chat.id
+
       p notification.template(Notification::READ_MESSAGE)
-            .data({messages: message_ids.join(","), chat_id: friend_chat.id})
+            .data(data)
             .email(chat.friend.email)
             .send
     end
