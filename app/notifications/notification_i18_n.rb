@@ -16,7 +16,7 @@ module NotificationI18N
 
   READ_MESSAGE={
       android_group: "read_message",
-      contents:{es:"read_message"},
+      contents:{en:"read_message"},
       data: {
           type: "read_message"
       }
