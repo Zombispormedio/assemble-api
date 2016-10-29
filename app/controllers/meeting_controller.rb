@@ -2,7 +2,9 @@ module MeetingController
   include BaseController
 
   def get_meetings
-    {:data => @user.serialized_meetings}
+    team_ids=@user.teams.select("id")
+    meetings=Meeting.where('team_id IN (?) AND start_at >= ?', team_ids, Time.now.beginning_of_day)
+    {:data => @user. serialize_meetings_from_me(meetings)}
   end
 
   def create_meeting

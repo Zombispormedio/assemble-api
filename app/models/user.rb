@@ -81,7 +81,6 @@ class User < ActiveRecord::Base
     self.teams.map do |team|
       obj=PreviewTeamSerializer.new(team).attributes
         obj[:starred]=stars.include?(obj[:id])
-    
       obj
     end
 
@@ -90,15 +89,9 @@ class User < ActiveRecord::Base
   def serialized_meetings
     team_ids=self.teams.select("id")
     meetings=Meeting.where('team_id IN (?)', team_ids)
-    marks=self.bookmarks.map{|mark| mark.meeting_id}
-    meetings.map do |meeting|
-      obj=PreviewMeetingSerializer.new(meeting).attributes
-     
-        obj[:bookmark]=marks.include?(obj[:id])
-     
-      obj
-    end
+    serialize_meetings_from_me(meetings)
   end
+
 
   def serialized_chats
     self.chats.map { |chat| ChatSerializer.new(chat).attributes }
@@ -122,6 +115,17 @@ class User < ActiveRecord::Base
         message[:chat_id]=chat.id
         message
       end
+    end
+  end
+
+  def serialize_meetings_from_me(meetings)
+    marks=self.bookmarks.map{|mark| mark.meeting_id}
+    meetings.map do |meeting|
+      obj=PreviewMeetingSerializer.new(meeting).attributes
+
+      obj[:bookmark]=marks.include?(obj[:id])
+
+      obj
     end
   end
 
