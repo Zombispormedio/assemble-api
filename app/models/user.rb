@@ -80,9 +80,8 @@ class User < ActiveRecord::Base
     stars=self.starreds.map{|star|star.team_id}
     self.teams.map do |team|
       obj=PreviewTeamSerializer.new(team).attributes
-      if stars.include?(obj[:id])
-        obj[:starred]=true
-      end
+        obj[:starred]=stars.include?(obj[:id])
+    
       obj
     end
 
@@ -94,9 +93,9 @@ class User < ActiveRecord::Base
     marks=self.bookmarks.map{|mark| mark.meeting_id}
     meetings.map do |meeting|
       obj=PreviewMeetingSerializer.new(meeting).attributes
-      if marks.include?(obj[:id])
-        obj[:bookmark]=true
-      end
+     
+        obj[:bookmark]=marks.include?(obj[:id])
+     
       obj
     end
   end
