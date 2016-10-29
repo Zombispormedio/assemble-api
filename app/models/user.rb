@@ -34,6 +34,13 @@ class User < ActiveRecord::Base
 
   has_many :messages, foreign_key: "sender_id", dependent: :destroy
 
+  #bookmark and starred
+
+  has_many :starreds, dependent: :destroy
+
+  has_many :bookmarks, dependent: :destroy
+
+
 
   #Validation
   validates :email, presence: {message: "Email must be"}
@@ -70,14 +77,28 @@ class User < ActiveRecord::Base
   end
 
   def serialized_teams
-    self.teams.map { |team| PreviewTeamSerializer.new(team).attributes }
+    stars=self.starreds.map{|star|star.team_id}
+    self.teams.map do |team|
+      obj=PreviewTeamSerializer.new(team).attributes
+      if stars.include?(obj[:id])
+        obj[:starred]=true
+      end
+      obj
+    end
+
   end
 
   def serialized_meetings
     team_ids=self.teams.select("id")
     meetings=Meeting.where('team_id IN (?)', team_ids)
-
-    meetings.map { |meeting| PreviewMeetingSerializer.new(meeting).attributes }
+    marks=self.bookmarks.map{|mark| mark.meeting_id}
+    meetings.map do |meeting|
+      obj=PreviewMeetingSerializer.new(meeting).attributes
+      if marks.include?(obj[:id])
+        obj[:bookmark]=true
+      end
+      obj
+    end
   end
 
   def serialized_chats

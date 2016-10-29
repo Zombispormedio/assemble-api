@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161023145526) do
+ActiveRecord::Schema.define(version: 20161029115604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,11 @@ ActiveRecord::Schema.define(version: 20161023145526) do
     t.boolean  "attend?"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "bookmarks", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "meeting_id"
   end
 
   create_table "chats", force: :cascade do |t|
@@ -127,6 +132,11 @@ ActiveRecord::Schema.define(version: 20161023145526) do
     t.boolean  "is_sent"
     t.boolean  "is_delivered"
     t.string   "uid"
+  end
+
+  create_table "starreds", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "team_id"
   end
 
   create_table "team_messages", force: :cascade do |t|

@@ -61,6 +61,8 @@ require_relative 'app/models/incoming'
 require_relative 'app/models/message'
 require_relative 'app/models/team_message'
 require_relative 'app/models/meeting_message'
+require_relative 'app/models/starred'
+require_relative 'app/models/bookmark'
 
 require_relative 'app/controllers/base_controller'
 require_relative 'app/controllers/oauth_controller'

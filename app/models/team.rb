@@ -10,6 +10,8 @@ class Team < ActiveRecord::Base
   has_many :messages, :class_name => 'TeamMessage'
 
 
+  has_many :starreds
+
   #Validation
 
   #Validation

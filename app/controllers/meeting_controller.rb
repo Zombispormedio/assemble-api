@@ -113,4 +113,26 @@ module MeetingController
     get_meetings
   end
 
+  def bookmark_meeting
+    meeting=get_meeting
+    if meeting.nil?
+      return {:msg => "Meeting not found"}
+    end
+
+    result=Hash.new
+
+    bookmark=@user.bookmarks.find_by(meeting_id: @meeting_id) rescue nil
+
+    if bookmark.nil?
+      @user.bookmarks.create(meeting_id: @meeting_id)
+      result[:data]={msg: "Bookmarked meeting"}
+    else
+      bookmark.destroy
+      result[:data]={msg: "Unbookmarked meeting"}
+    end
+
+    result
+
+  end
+
 end

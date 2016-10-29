@@ -43,6 +43,10 @@ module Routes
         resolve get_attendants
       end
 
+      put "/bookmark" do
+        resolve bookmark_meeting
+      end
+
     end
   end
 end

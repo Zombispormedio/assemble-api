@@ -12,6 +12,20 @@
 #User.find(117).chats.find_by(friend_id: 66).messages.create(content: "hello 66")
 
 #User.find(66).chats.first.destroy
-chat=User.find(66).chats.find(11)
+#chat=User.find(66).chats.find(11)
 
-chat.messages.create(content: "Mierda!!!!" , is_sent: true)
+#chat.messages.create(content: "Mierda!!!!" , is_sent: true)
+
+user=User.find(66)
+
+#user.starreds.create(team_id: 16)
+
+#user.bookmarks.create(meeting_id: 45)
+
+p user.starreds
+
+p user.bookmarks
+
+p Meeting.find(45).attendants.find_by(member_id:66)
+
+p user.starreds.map{|star|star.team_id}.include? 16

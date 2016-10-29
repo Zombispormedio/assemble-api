@@ -294,4 +294,27 @@ module TeamController
       TeamMessageSerializer.new(msg).attributes
     }}
   end
+
+
+  def star_team
+    team=@user.teams.find(@team_id) rescue nil
+
+    if team.nil?
+      return {:error => {:msg => "Team not found"}}
+    end
+
+    result=Hash.new
+
+    starred=@user.starreds.find_by(team_id: @team_id) rescue nil
+
+    if starred.nil?
+      @user.starreds.create(team_id: @team_id)
+      result[:data]={msg: "Starred team"}
+    else
+      starred.destroy
+      result[:data]={msg: "Unstarred team"}
+    end
+
+    result
+  end
 end

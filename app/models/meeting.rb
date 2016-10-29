@@ -10,6 +10,8 @@ class Meeting < ActiveRecord::Base
   has_many :attendances, :dependent => :destroy
   has_many :attendants, :through => :attendances
 
+  has_many :bookmarks
+
   #Validation
   validates :name, presence: {message: "Name must be"}
   validates :start_at, presence: {message: "Start date must be"}

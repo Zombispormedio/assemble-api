@@ -73,6 +73,10 @@ module Routes
         resolve get_messages
       end
 
+      put "/star" do
+        resolve star_team
+      end
+
     end
   end
 end
